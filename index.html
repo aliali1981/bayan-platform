@@ -1,1 +1,318 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة بَيَان التعليمية</title>
+    <style>
+        :root {
+            --primary-blue: #1a2a6c; 
+            --gold: #b48c0b;
+            --bg-gray: #f4f7f9;
+            --white: #ffffff;
+            --drawer-bg: #1a2a6c;
+            --success: #10b981;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0; background-color: var(--bg-gray);
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh;
+        }
+
+        .header-bar {
+            width: 100%; height: 60px; background: var(--primary-blue);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 15px; box-sizing: border-box; color: white;
+            position: fixed; top: 0; z-index: 1000;
+        }
+
+        .drawer-btn { font-size: 24px; cursor: pointer; color: var(--gold); background: none; border: none; outline: none; }
+
+        .drawer {
+            position: fixed; top: 0; right: -280px; width: 280px; height: 100%;
+            background: var(--drawer-bg); transition: 0.3s ease; z-index: 2000;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3); color: white;
+        }
+        .drawer.open { right: 0; }
+        .drawer-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .drawer-item { padding: 15px 25px; display: flex; align-items: center; gap: 15px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1500; }
+
+        .main-content { margin-top: 80px; width: 100%; display: flex; justify-content: center; padding: 10px; box-sizing: border-box; }
+
+        .container {
+            width: 100%; max-width: 550px; background: var(--white);
+            padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center; display: none; height: fit-content; margin-bottom: 30px;
+        }
+
+        .active { display: block; animation: fadeIn 0.3s ease; }
+
+        .quiz-section {
+            background: #f8fafc; border-radius: 15px; padding: 15px; margin-bottom: 15px;
+            border: 1px solid #e2e8f0; text-align: right;
+        }
+        .section-title {
+            display: flex; align-items: center; gap: 8px; color: var(--primary-blue);
+            font-weight: bold; margin-bottom: 10px; border-bottom: 2px solid var(--gold);
+            padding-bottom: 5px; width: fit-content;
+        }
+        
+        .video-wrapper {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 12px; background: #000; margin: 10px 0;
+        }
+        .video-wrapper iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
+
+        .btn-small-red {
+            display: inline-block; background: #ef4444; color: white; padding: 8px 15px;
+            border-radius: 8px; text-decoration: none; font-size: 0.85rem; margin-top: 5px;
+        }
+
+        .logo-img { width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--gold); margin-bottom: 10px; background: white; }
+        .title { font-size: 1.7rem; color: var(--primary-blue); margin: 5px 0; }
+        
+        select, input {
+            width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 12px;
+            font-size: 1.1rem; margin-bottom: 15px; text-align: center; outline: none; box-sizing: border-box;
+        }
+
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .btn-main { background: var(--primary-blue); color: white; }
+        .btn-home { background: #64748b; color: white; }
+
+        .option-card { display: flex; align-items: center; gap: 12px; background: #f1f5f9; padding: 15px; border-radius: 12px; margin: 10px 0; cursor: pointer; }
+        .feedback { padding: 15px; margin: 10px 0; border-radius: 10px; text-align: right; font-weight: bold; }
+        .correct { background: #dcfce7; color: #166534; border-right: 6px solid #166534; }
+        .wrong { background: #fee2e2; color: #991b1b; border-right: 6px solid #991b1b; }
+        .next-act-info { background: #e0f2fe; color: #0369a1; padding: 15px; border-radius: 12px; margin: 15px 0; border-right: 6px solid #0369a1; text-align: right; font-weight: bold; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div id="sideDrawer" class="drawer">
+        <div class="drawer-header"><h3>مدرسة يزيد بن الحارث</h3><p style="color: var(--gold);">بَيَان التعليمي</p></div>
+        <div class="drawer-item" onclick="forceReturnHome()">🏠 الصفحة الرئيسية</div>
+        <div class="drawer-item" onclick="alert('تواصل مع الأستاذ هشام الكحالي')">📞 تواصل معنا</div>
+        <div class="drawer-item" style="color: #ff7675; margin-top: 40px;" onclick="forceReturnHome()">🚪 خروج</div>
+    </div>
+    <div id="overlay" class="overlay" onclick="toggleDrawer()"></div>
+
+    <div class="header-bar">
+        <button class="drawer-btn" onclick="toggleDrawer()">☰</button>
+        <div style="font-weight: bold;">منصة بَيَان</div>
+        <div style="width: 30px;"></div>
+    </div>
+
+    <div class="main-content">
+        <div id="screen_start" class="container active">
+            <img src="https://raw.githubusercontent.com/aliali1981/yazeed-school/a50150e66ccf86f423cce81d6d402473c4bf15bb/logo.png" class="logo-img">
+            <h1 class="title">بَيَان</h1>
+            <select id="sel_class" onchange="updateStudentNames()">
+                <option value="" disabled selected>-- اختر الفصل --</option>
+                <option>7-1</option><option>7-2</option><option>7-3</option>
+            </select>
+            <select id="sel_name"><option value="" disabled selected>-- اختر اسمك --</option></select>
+            <button class="btn btn-main" onclick="goToPassword()">دخول للمنصة 🚀</button>
+        </div>
+
+        <div id="screen_pass" class="container">
+            <h2 id="user_display"></h2>
+            <input type="password" id="input_pass" placeholder="رقم القائمة">
+            <button class="btn btn-main" onclick="verifyUser()">تأكيد 🎯</button>
+            <button class="btn btn-home" onclick="forceReturnHome()">🏠 عودة</button>
+        </div>
+
+        <div id="screen_menu" class="container">
+            <h2 class="title">الأنشطة المتاحة</h2>
+            <div id="list_activities"></div>
+            <button class="btn btn-home" onclick="forceReturnHome()">🏠 تسجيل الخروج</button>
+        </div>
+
+        <div id="screen_quiz" class="container">
+            <div id="quiz_view">
+                <h3 id="act_title" style="color:var(--primary-blue); margin-top:0;"></h3>
+                
+                <div class="quiz-section">
+                    <div class="section-title">💡 اشرح لي:</div>
+                    <div id="rule_display"></div>
+                </div>
+
+                <div class="quiz-section">
+                    <div class="section-title">📺 شاهد واستمتع:</div>
+                    <div id="video_area">
+                        <div class="video-wrapper">
+                            <iframe id="main_player" src="" allowfullscreen></iframe>
+                        </div>
+                        <a id="external_link" href="#" target="_blank" class="btn-small-red">لم يفتح الفيديو؟ اضغط هنا للمشاهدة على يوتيوب 🔗</a>
+                    </div>
+                </div>
+
+                <div class="quiz-section" style="background: #fff; border: 2px dashed var(--gold);">
+                    <div class="section-title">📝 اختبرني:</div>
+                    <div id="questions_view"></div>
+                </div>
+
+                <button class="btn btn-main" onclick="showResults()">حفظ وإرسال 💾</button>
+            </div>
+
+            <div id="result_view" style="display:none; text-align: right;">
+                <h2 style="text-align:center;">تقرير الأداء</h2>
+                <div id="feedback_view"></div>
+                <div id="next_step_area"></div>
+                <button id="btn_action" class="btn btn-main"></button>
+                <button class="btn btn-home" onclick="forceReturnHome()">🏠 العودة للرئيسية</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const studentsData = { "7-1": ["احمد امجد احمد نجاد", "أحمد بن سعيد بن صالح جداد", "العبد بن محمد بن زائد مسن", "النابي بن محمد بن سهيل مسن", "بخيت بن احمد بن فريح مسن", "تميم بن محمد بن جديد جداد", "تميم بن محمد بن عبدالله المسهلي", "حمد بن محمد بن احمد الهزار", "حمد بن محمد بن سعيد مسن", "راشد بن محمد بن احمد مسن", "سالم بن سعد بن صلاح رعفيت", "سعيد بن شهاب بن احمد مسن", "سعيد بن محمد بن صالح جداد", "سعيد بن محمد بن مبارك جداد", "سلطان بن حمزة بن مسلم ربعات", "عامر بن محمد بن مسلم المسهلي", "عبد الله بن سالم بن سليم قمصيت", "عمر احمد محمد احمد", "عمر عبد القوي ابراهيم", "فريح بن عبد الله بن فريح مسن", "مجتبى عيسى محمد", "مسلم بن محمد بن عوض الوهيبي", "ناصر بن سالم بن ظويهر جداد", "ياسر بن عادل بن سالم مسن", "يوسف عمر احمد عبد الرحمن"], "7-2": ["ابراهيم محمد سالم السطري", "العباس بن مبخوت بن سالم مسن", "المنذر بن فواز بن عبدالله الهاشمي", "امير بن ناصر بن عبدالله البلوشي", "حسين سلامه حسين شليل", "خالد بن سالم بن علي العلوي", "خالد بن محمد بن مطر جداد", "خالد بن مسلم بن احمد جداد", "رويزم بن مسلم بن صندل المحرمي", "سالم بن مبارك بن محمد الراشدي", "سعد بن محمد بن حفيظ خوار", "سعود بن عبد الله بن بخيت مسن", "سعيد بن عبد الله بن احمد جداد", "سعيد بن مسلم بن عبدالله جداد", "سلطان بن مسلم بن صالح جداد", "عبد الله بن عارف بن سالم جداد", "علي بن سعيد بن علي خوار", "عمر فؤاد فهمي فؤاد", "فهد بن غانم بن سالم جداد", "محسن معتصم محمد الامام", "محمد بن سالم بن مبخوت الراشدي", "مسلم بن سالم بن سهيل الراشدي", "مصطفى محمود كريم احمد", "معاذ احمد سميح علي سيد", "منيف بن سعيد بن محمد جداد", "هادف بن سعيد بن حسن خوار", "وائل بن حمود بن سالم الوائلي"], "7-3": ["أحمد بن نايف بن عبدالله جداد", "الطلح بن سالم بن حسن خوار", "بخيت بن مسلم سالم الراشدي", "بدر بن عامر بن مسلم جداد", "حثيث بن سلطان بن محمد مسن", "حمد بن محمد بن عبدالله جداد", "سالم بن احمد بن سالم جداد", "سعيد بن مبروك بن سالم المسهلي", "سهيل بن عبدالله بن سهيل خوار", "عبد الله أمير عبدالله نصر", "عبدالله بن محمد بن علي العامري", "علي بن ثاني بن علي جداد", "فارس زياد محمد ابو رواع", "مبارك بن سعيد بن سالم مسن", "محسن بن عقيل بن سالم خوار", "محمد بن بخيت بن فرج المهري", "محمد بن علي بن بخيت الراشدي", "محمد بن غانم بن الرضه جداد", "محمد بن مسلم بن محمد جداد", "محمد بن ناصر بن عبدالله جداد", "محمد بن هيثم بن سالم جداد", "مسلم بن حسن بن هادف خوار", "معاذ فؤاد الحنيش الاحمد", "ناصر بن علي بن ناصر جداد", "نور الدين محسن العلي", "هيثم بن محمد بن سالم جداد"] };
+        const excellentStudents = ["احمد امجد احمد نجاد", "أحمد بن سعيد بن صالح جداد", "سلطان بن حمزة بن مسلم ربعات", "عمر احمد محمد احمد", "عمر عبد القوي ابراهيم", "يوسف عمر احمد عبد الرحمن"];
+        const activitiesNames = { 1: "تنوين الفتح وقواعد الجملة الاسمية", 2: "اللام الشمسية والقمرية / كان وأخواتها", 3: "الهمزة المتوسطة وأنواع الخبر", 4: "الأفعال والأسماء الخمسة", 5: "مراجعة شاملة واختبار ذكاء" };
+
+        const quizData = {
+            "علاجي": {
+                1: { 
+                    rule: "نزيد ألفاً في تنوين الفتح (كتاباً) إلا مع التاء المربوطة (مدرسةً) أو الكلمة المنتهية بهمزة مسبوقة بألف (سماءً).", 
+                    video: "https://youtu.be/lwokjBeue8I?feature=shared", 
+                    qs: [ {q: "تنوين (قلم) فتحاً:", o: ["قلمن", "قلماً"], a: 1} ] 
+                },
+                2: { rule: "اللام القمرية تُنطق وتكتب (البحر)، الشمسية لا تُنطق (الشمس).", video: "https://youtu.be/XpS4p2Xv4lU", qs: [ {q: "(العلم) لام:", o: ["شمسية", "قمرية"], a: 1} ] }
+            },
+            "إثرائي": {
+                1: { rule: "الجملة الاسمية تتكون من مبتدأ وخبر مرفوعين دائماً.", video: "https://youtu.be/I4zD7-hY-xM", qs: [ {q: "المعلمون مخلصون. المبتدأ مرفوع بـ:", o: ["الضمة", "الواو"], a: 1} ] },
+                2: { rule: "كان وأخواتها ترفع المبتدأ وتنصب الخبر.", video: "https://youtu.be/16S-zYpY9qY", qs: [ {q: "كان الجوُّ _______:", o: ["جميلاً", "جميلٌ"], a: 0} ] }
+            }
+        };
+
+        // دالة ذكية لتحويل أي رابط يوتيوب إلى صيغة Embed تعمل داخل الصفحة
+        function getEmbedUrl(url) {
+            let videoId = "";
+            if (url.includes("youtu.be/")) {
+                videoId = url.split("youtu.be/")[1].split("?")[0];
+            } else if (url.includes("v=")) {
+                videoId = url.split("v=")[1].split("&")[0];
+            }
+            return videoId ? `https://www.youtube.com/embed/${videoId}?rel=0` : url;
+        }
+
+        let currentName = "", currentPass = 0, currentLevel = "", currentAct = 1;
+
+        function toggleDrawer() { document.getElementById('sideDrawer').classList.toggle('open'); document.getElementById('overlay').style.display = document.getElementById('overlay').style.display === 'block' ? 'none' : 'block'; }
+        
+        function forceReturnHome() {
+            document.querySelectorAll('.container').forEach(c => { c.classList.remove('active'); c.style.display = 'none'; });
+            document.getElementById('screen_start').style.display = 'block';
+            setTimeout(() => document.getElementById('screen_start').classList.add('active'), 50);
+            document.getElementById('sideDrawer').classList.remove('open');
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function updateStudentNames() {
+            const cls = document.getElementById('sel_class').value;
+            const sel = document.getElementById('sel_name');
+            sel.innerHTML = '<option value="" disabled selected>-- اختر اسمك --</option>';
+            studentsData[cls].forEach((n, i) => {
+                let o = document.createElement('option'); o.value = n; o.dataset.idx = i + 1;
+                o.innerText = `${i+1}. ${n}`; sel.appendChild(o);
+            });
+        }
+
+        function goToPassword() {
+            const sel = document.getElementById('sel_name');
+            const cls = document.getElementById('sel_class').value;
+            currentName = sel.value; if(!currentName) return alert("اختر الاسم أولاً!");
+            currentPass = sel.options[sel.selectedIndex].dataset.idx;
+            currentLevel = (cls === "7-1" && excellentStudents.includes(currentName)) ? "إثرائي" : "علاجي";
+            document.getElementById('user_display').innerText = `أهلاً بك: ${currentName.split(' ')[0]}`;
+            changePage('screen_pass');
+        }
+
+        function verifyUser() { if(document.getElementById('input_pass').value == currentPass) { renderMenu(); changePage('screen_menu'); } else alert("رقم القائمة خطأ!"); }
+
+        function renderMenu() {
+            let h = "";
+            for(let i=1; i<=5; i++) {
+                let available = quizData[currentLevel][i] ? true : false;
+                h += `<button class="btn ${available ? 'btn-main' : ''}" style="${!available ? 'background:#94a3b8; cursor:not-allowed;' : ''}" onclick="${available ? `startActivity(${i})` : `alert('قريباً')`}">
+                    ${activitiesNames[i]} ${available ? '✅' : '🔒'}
+                </button>`;
+            }
+            document.getElementById('list_activities').innerHTML = h;
+        }
+
+        function startActivity(n) {
+            currentAct = n; const d = quizData[currentLevel][n];
+            document.getElementById('act_title').innerText = activitiesNames[n];
+            document.getElementById('rule_display').innerHTML = d.rule;
+            
+            // تحويل الرابط وتحديث المشغل
+            const embedUrl = getEmbedUrl(d.video);
+            document.getElementById('main_player').src = embedUrl;
+            document.getElementById('external_link').href = d.video;
+            
+            document.getElementById('questions_view').innerHTML = d.qs.map((q, i) => `
+                <div style="margin-bottom:20px; text-align:right;">
+                    <p style="font-weight:bold;">س${i+1}: ${q.q}</p>
+                    ${q.o.map((opt, oi) => `<label class="option-card"><input type="radio" name="q${i}" value="${oi}"><span style="margin-right:10px;">${opt}</span></label>`).join('')}
+                </div>`).join('');
+            
+            document.getElementById('quiz_view').style.display = "block";
+            document.getElementById('result_view').style.display = "none";
+            changePage('screen_quiz');
+        }
+
+        function showResults() {
+            const d = quizData[currentLevel][currentAct]; let h = ""; let score = 0;
+            for(let i=0; i<d.qs.length; i++) {
+                const s = document.querySelector(`input[name="q${i}"]:checked`);
+                if(!s) return alert("يرجى حل كل الأسئلة!");
+                const correct = s.value == d.qs[i].a; if(correct) score++;
+                h += `<div class="feedback ${correct?'correct':'wrong'}">س${i+1}: ${correct?'إجابة صحيحة ✅':'خطأ ❌'}</div>`;
+            }
+            document.getElementById('quiz_view').style.display = "none";
+            document.getElementById('result_view').style.display = "block";
+            document.getElementById('feedback_view').innerHTML = `<h3>الدرجة: ${score} من ${d.qs.length}</h3>` + h;
+            
+            const nextIdx = currentAct + 1;
+            const hasNextData = quizData[currentLevel][nextIdx] ? true : false;
+            const hasNextName = activitiesNames[nextIdx] ? true : false;
+            const nextStepArea = document.getElementById('next_step_area');
+            const btn = document.getElementById('btn_action');
+
+            if (hasNextName) {
+                if (hasNextData) {
+                    nextStepArea.innerHTML = `<div class="next-act-info">النشاط التالي جاهز: ${activitiesNames[nextIdx]}</div>`;
+                    btn.innerText = "انتقل للنشاط التالي ⬅️";
+                    btn.style.background = "var(--success)";
+                    btn.onclick = () => startActivity(nextIdx);
+                } else {
+                    nextStepArea.innerHTML = `<div class="next-act-info">النشاط القادم سيكون متاحاً قريباً ⏳</div>`;
+                    btn.innerText = "العودة لقائمة الأنشطة 📋";
+                    btn.style.background = "var(--primary-blue)";
+                    btn.onclick = () => { renderMenu(); changePage('screen_menu'); };
+                }
+            } else {
+                nextStepArea.innerHTML = `<div class="next-act-info">🏆 أحسنت! انتهت جميع الأنشطة المجدولة.</div>`;
+                btn.innerText = "العودة للرئيسية 🏠";
+                btn.onclick = () => forceReturnHome();
+            }
+        }
+
+        function changePage(id) {
+            document.querySelectorAll('.container').forEach(c => { c.classList.remove('active'); c.style.display = 'none'; });
+            const next = document.getElementById(id); next.style.display = 'block';
+            setTimeout(() => next.classList.add('active'), 50);
+            window.scrollTo(0,0);
+        }
+    </script>
+</body>
+</html>
