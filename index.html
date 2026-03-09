@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مبادرة ارتقاء التعليمية</title>
     <style>
         :root {
@@ -20,59 +20,65 @@
             min-height: 100vh;
         }
 
-        /* --- تصميم شعار ارتقاء المدمج (كتاب + طلاب) --- */
-        .logo-wrapper {
-            width: 180px; height: 160px;
+        /* --- تصميم الشعار الجديد برمجياً لضمان الظهور --- */
+        .rtiqa-logo-container {
+            background-color: #000; /* خلفية سوداء مطابقة للصورة */
+            padding: 20px;
+            border-radius: 15px;
             margin: 20px auto;
+            width: 90%;
+            max-width: 350px;
             position: relative;
-            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border: 2px solid var(--gold);
         }
 
-        /* تمثيل الطلاب كأيقونات صاعدة */
-        .students-icons {
-            display: flex; gap: 10px; margin-bottom: -5px; z-index: 5;
-        }
-        .student {
-            width: 15px; height: 15px; background: var(--gold); border-radius: 50%;
-            position: relative; animation: studentRise 2s infinite ease-in-out;
-        }
-        .student::after {
-            content: ""; position: absolute; top: 18px; left: -2px;
-            width: 20px; height: 10px; background: var(--gold);
-            border-radius: 10px 10px 0 0;
-        }
-        .s1 { animation-delay: 0s; }
-        .s2 { animation-delay: 0.5s; transform: scale(1.2); background: var(--primary-blue); }
-        .s2::after { background: var(--primary-blue); }
-        .s3 { animation-delay: 1s; }
-
-        /* تمثيل الكتاب المفتوح */
-        .book-base {
-            width: 120px; height: 40px;
-            background: var(--white);
-            border: 4px solid var(--primary-blue);
-            border-radius: 5px 5px 20px 20px;
+        .rtiqa-frame {
+            border: 2px solid var(--gold);
+            padding: 15px;
             position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .book-base::before {
-            content: ""; position: absolute; top: 50%; left: 0;
-            width: 100%; height: 2px; background: var(--primary-blue);
+            text-align: center;
         }
 
-        .logo-text-eb {
-            font-size: 2.2rem; font-weight: 900;
-            color: var(--primary-blue);
+        .students-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+
+        .student-head {
+            width: 12px; height: 12px;
+            background: var(--gold);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .student-head::after {
+            content: '🎓';
+            position: absolute;
+            top: -12px; left: -2px;
+            font-size: 10px;
+        }
+
+        .main-word {
+            color: #fff;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin: 0;
+            line-height: 1;
+            letter-spacing: -2px;
+        }
+
+        .sub-phrase {
+            color: #fff;
+            font-size: 0.9rem;
             margin-top: 5px;
-            letter-spacing: -1px;
+            border-top: 1px solid var(--gold);
+            padding-top: 5px;
         }
 
-        @keyframes studentRise {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        /* --- باقي التنسيقات --- */
+        /* --- باقي تنسيقات المنصة والقائمة --- */
         .drawer-logo-circle {
             width: 85px; height: 85px; border-radius: 50%;
             border: 3px solid var(--gold); margin: 0 auto 10px;
@@ -105,12 +111,9 @@
         .container {
             width: 100%; max-width: 550px; background: var(--white);
             padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            text-align: center; display: none;
+            text-align: center; display: none; margin-bottom: 40px;
         }
         .active { display: block; animation: fadeIn 0.4s ease; }
-
-        .title { font-size: 2rem; color: var(--primary-blue); margin: 5px 0; font-weight: 800; }
-        .slogan { color: #64748b; font-size: 1.1rem; margin-bottom: 25px; }
 
         select, input {
             width: 100%; padding: 15px; border: 2px solid #eef2f6; border-radius: 15px;
@@ -137,31 +140,32 @@
         <div class="drawer-item" onclick="forceReturnHome()">🏠 الصفحة الرئيسية</div>
         <div class="drawer-item" onclick="openLibrary()">📚 مكتبة المبادرة</div>
         <div class="drawer-item" onclick="alert('تواصل مع الأستاذ هشام الكحالي')">📞 تواصل معنا</div>
-        <div class="drawer-item" style="color: #ff7675; margin-top: 50px;" onclick="forceReturnHome()">🚪 خروج</div>
     </div>
     <div id="overlay" class="overlay" onclick="toggleDrawer()"></div>
 
     <div class="header-bar">
         <button class="drawer-btn" onclick="toggleDrawer()">☰</button>
-        <div style="font-weight: bold;">مبادرة ارتقاء</div>
+        <div style="font-weight: bold;">منصة ارتقاء التعليمية</div>
         <div style="width: 30px;"></div>
     </div>
 
     <div class="main-content">
         <div id="screen_start" class="container active">
             
-            <div class="logo-wrapper">
-                <div class="students-icons">
-                    <div class="student s1"></div>
-                    <div class="student s2"></div>
-                    <div class="student s3"></div>
+            <div class="rtiqa-logo-container">
+                <div class="rtiqa-frame">
+                    <div class="students-row">
+                        <div class="student-head"></div>
+                        <div class="student-head"></div>
+                        <div class="student-head"></div>
+                        <div class="student-head"></div>
+                    </div>
+                    <h1 class="main-word">إرتقاء</h1>
+                    <div class="sub-phrase">نرمم الأساس لنبني الإنجاز</div>
                 </div>
-                <div class="book-base"></div>
-                <div class="logo-text-eb">ارتقاء</div>
             </div>
 
-            <h1 class="title">مبادرة ارتقاء</h1>
-            <p class="slogan">"نُرمّمُ الأساس.. لِنبنيَ الإنجاز"</p>
+            <h2 style="color: var(--primary-blue); margin-top: 10px;">تسجيل الدخول</h2>
 
             <select id="sel_class" onchange="updateStudentNames()">
                 <option value="" disabled selected>-- اختر الفصل --</option>
@@ -171,47 +175,26 @@
             <button class="btn btn-main" onclick="goToPassword()">دخول للمنصة 🚀</button>
         </div>
 
-        <div id="screen_library" class="container">
-            <h2 class="title">📚 مكتبة ارتقاء</h2>
-            <div id="library_main_view">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
-                    <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:20px; border-radius:20px; cursor:pointer;" onclick="viewBook('https://drive.google.com/file/d/1W1z7QikvauZiv0XpN0FgLesdX9JT1cM_/preview')">
-                        <span style="font-size:2.5rem;">📖</span><br>
-                        <span style="font-weight:bold; color:var(--primary-blue);">كتاب لغتي الجميله</span>
-                    </div>
-                </div>
-            </div>
-            <div id="book_viewer_container">
-                <iframe id="book_iframe" class="book-iframe" src="" style="width:100%; height:500px; border-radius:15px; border:2px solid var(--gold);"></iframe>
-                <button class="btn btn-home" onclick="closeBook()">🔙 العودة للمكتبة</button>
-            </div>
-            <button class="btn btn-home" style="margin-top:20px;" onclick="forceReturnHome()">🏠 العودة للرئيسية</button>
-        </div>
-
         <div id="screen_pass" class="container">
             <h2 id="user_display"></h2>
-            <input type="password" id="input_pass" placeholder="رقم القائمة">
+            <input type="password" id="input_pass" placeholder="أدخل رقم القائمة">
             <button class="btn btn-main" onclick="verifyUser()">تأكيد الدخول 🎯</button>
             <button class="btn btn-home" onclick="forceReturnHome()">🏠 إلغاء</button>
         </div>
     </div>
 
     <script>
-        const studentsData = { "7-1": ["احمد امجد احمد نجاد", "أحمد بن سعيد بن صالح جداد", "العبد بن محمد بن زائد مسن", "النابي بن محمد بن سهيل مسن", "بخيت بن احمد بن فريح مسن", "تميم بن محمد بن جديد جداد", "تميم بن محمد بن عبدالله المسهلي", "حمد بن محمد بن احمد الهزار", "حمد بن محمد بن سعيد مسن", "راشد بن محمد بن احمد مسن", "سالم بن سعد بن صلاح رعفيت", "سعيد بن شهاب بن احمد مسن", "سعيد بن محمد بن صالح جداد", "سعيد بن محمد بن مبارك جداد", "سلطان بن حمزة بن مسلم ربعات", "عامر بن محمد بن مسلم المسهلي", "عبد الله بن سالم بن سليم قمصيت", "عمر احمد محمد احمد", "عمر عبد القوي ابراهيم", "فريح بن عبد الله بن فريح مسن", "مجتبى عيسى محمد", "مسلم بن محمد بن عوض الوهيبي", "ناصر بن سالم بن ظويهر جداد", "ياسر بن عادل بن سالم مسن", "يوسف عمر احمد عبد الرحمن"], "7-2": ["ابراهيم محمد سالم السطري", "العباس بن مبخوت بن سالم مسن", "المنذر بن فواز بن عبدالله الهاشمي", "امير بن ناصر بن عبدالله البلوشي", "حسين سلامه حسين شليل", "خالد بن سالم بن علي العلوي", "خالد بن محمد بن مطر جداد", "خالد بن مسلم بن احمد جداد", "رويزم بن مسلم بن صندل المحرمي", "سالم بن مبارك بن محمد الراشدي", "سعد بن محمد بن حفيظ خوار", "سعود بن عبد الله بن بخيت مسن", "سعيد بن عبد الله بن احمد جداد", "سعيد بن مسلم بن عبدالله جداد", "سلطان بن مسلم بن صالح جداد", "عبد الله بن عارف بن سالم جداد", "علي بن سعيد بن علي خوار", "عمر فؤاد فهمي فؤاد", "فهد بن غانم بن سالم جداد", "محسن معتصم محمد الامام", "محمد بن سالم بن مبخوت الراشدي", "مسلم بن سالم بن سهيل الراشدي", "مصطفى محمود كريم احمد", "معاذ احمد سميح علي سيد", "منيف بن سعيد بن محمد جداد", "هادف بن سعيد بن حسن خوار", "وائل بن حمود بن سالم الوائلي"], "7-3": ["أحمد بن نايف بن عبدالله جداد", "الطلح بن سالم بن حسن خوار", "بخيت بن مسلم سالم الراشدي", "بدر بن عامر بن مسلم جداد", "حثيث بن سلطان بن محمد مسن", "حمد بن محمد بن عبدالله جداد", "سالم بن احمد بن سالم جداد", "سعيد بن مبروك بن سالم المسهلي", "سهيل بن عبدالله بن سهيل خوار", "عبد الله أمير عبدالله نصر", "عبدالله بن محمد بن علي العامري", "علي بن ثاني بن علي جداد", "فارس زياد محمد ابو رواع", "مبارك بن سعيد بن سالم مسن", "محسن بن عقيل بن سالم خوار", "محمد بن بخيت بن فرج المهري", "محمد بن علي بن بخيت الراشدي", "محمد بن غانم بن الرضه جداد", "محمد بن مسلم بن محمد جداد", "محمد بن ناصر بن عبدالله جداد", "محمد بن هيثم بن سالم جداد", "مسلم بن حسن بن هادف خوار", "معاذ فؤاد الحنيش الاحمد", "ناصر بن علي بن ناصر جداد", "نور الدين محسن العلي", "هيثم بن محمد بن سالم جداد"] };
+        const studentsData = { "7-1": ["احمد امجد احمد نجاد", "أحمد بن سعيد بن صالح جداد", "العبد بن محمد بن زائد مسن", "النابي بن محمد بن سهيل مسن", "بخيت بن احمد بن فريح مسن", "تميم بن محمد بن جديد جداد", "تميم بن محمد بن عبدالله المسهلي", "حمد بن محمد بن احمد الهزار", "حمد بن محمد بن سعيد مسن", "راشد بن محمد بن احمد مسن", "سالم بن سعد بن صلاح رعفيت", "سعيد بن شهاب بن احمد مسن", "سعيد بن محمد بن صالح جداد", "سعيد بن محمد بن مبارك جداد", "سلطان بن حمزة بن مسلم ربعات", "عامر بن محمد بن مسلم المسهلي", "عبد الله بن سالم بن سليم قمصيت", "عمر احمد محمد احمد", "عمر عبد القوي ابراهيم", "فريح بن عبد الله بن فريح مسن", "مجتبى عيسى محمد", "مسلم بن محمد بن عوض الوهيبي", "ناصر بن سالم بن ظويهر جداد", "ياسر بن عادل بن سالم مسن", "يوسف عمر احمد عبد الرحمن"], "7-2": ["ابراهيم محمد سالم السطري", "العباس بن مبخوت بن سالم مسن", "المنذر بن فواز بن عبدالله الهاشمي", "امير بن nاصر بن عبدالله البلوشي", "حسين سلامه حسين شليل", "خالد بن سالم بن علي العلوي", "خالد بن محمد بن مطر جداد", "خالد بن مسلم بن احمد جداد", "رويزم بن مسلم بن صندل المحرمي", "سالم بن مبارك بن محمد الراشدي", "سعد بن محمد بن حفيظ خوار", "سعود بن عبد الله بن بخيت مسن", "سعيد بن عبد الله بن احمد جداد", "سعيد بن مسلم بن عبدالله جداد", "سلطان بن مسلم بن صالح جداد", "عبد الله بن عارف بن سالم جداد", "علي بن سعيد بن علي خوار", "عمر فؤاد فهمي فؤاد", "فهد بن غانم بن سالم جداد", "محسن معتصم محمد الامام", "محمد بن سالم بن مبخوت الراشدي", "مسلم بن سالم بن سهيل الراشدي", "مصطفى محمود كريم احمد", "معاذ احمد سميح علي سيد", "منيف بن سعيد بن محمد جداد", "هادف بن سعيد بن حسن خوار", "وائل بن حمود بن سالم الوائلي"], "7-3": ["أحمد بن نايف بن عبدالله جداد", "الطلح بن سالم بن حسن خوار", "بخيت بن مسلم سالم الراشدي", "بدر بن عامر بن مسلم جداد", "حثيث بن سلطان بن محمد مسن", "حمد بن محمد بن عبدالله جداد", "سالم بن احمد بن سالم جداد", "سعيد بن مبروك بن سالم المسهلي", "سهيل بن عبدالله بن سهيل خوار", "عبد الله أمير عبدالله نصر", "عبدالله بن محمد بن علي العامري", "علي بن ثاني بن علي جداد", "فارس زياد محمد ابو رواع", "مبارك بن سعيد بن سالم مسن", "محسن بن عقيل بن سالم خوار", "محمد بن بخيت بن فرج المهري", "محمد بن علي بن بخيت الراشدي", "محمد بن غانم بن الرضه جداد", "محمد بن مسلم بن محمد جداد", "محمد بن ناصر بن عبدالله جداد", "محمد بن هيثم بن سالم جداد", "مسلم بن حسن بن هادف خوار", "معاذ فؤاد الحنيش الاحمد", "ناصر بن علي بن ناصر جداد", "نور الدين محسن العلي", "هيثم بن محمد بن سالم جداد"] };
 
         function toggleDrawer() { document.getElementById('sideDrawer').classList.toggle('open'); document.getElementById('overlay').style.display = document.getElementById('overlay').style.display === 'block' ? 'none' : 'block'; }
         function forceReturnHome() { changePage('screen_start'); document.getElementById('sideDrawer').classList.remove('open'); document.getElementById('overlay').style.display = 'none'; }
-        function openLibrary() { closeBook(); changePage('screen_library'); toggleDrawer(); }
-        function viewBook(url) { document.getElementById('library_main_view').style.display = 'none'; document.getElementById('book_viewer_container').style.display = 'block'; document.getElementById('book_iframe').src = url; }
-        function closeBook() { document.getElementById('book_viewer_container').style.display = 'none'; document.getElementById('library_main_view').style.display = 'block'; document.getElementById('book_iframe').src = ""; }
-
+        
         function updateStudentNames() {
             const cls = document.getElementById('sel_class').value;
             const sel = document.getElementById('sel_name');
             sel.innerHTML = '<option value="" disabled selected>-- اختر اسمك --</option>';
             studentsData[cls].forEach((n, i) => {
-                let o = document.createElement('option'); o.value = n; o.dataset.idx = i + 1;
-                o.innerText = `${i+1}. ${n}`; sel.appendChild(o);
+                let o = document.createElement('option'); o.value = n; o.innerText = `${i+1}. ${n}`; sel.appendChild(o);
             });
         }
 
