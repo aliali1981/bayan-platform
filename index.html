@@ -3,151 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مبادرة ارتقاء التعليمية</title>
+    <title>منصة ارتقاء التعليمية</title>
     <style>
-        :root {
-            --primary-blue: #1a2a6c; 
-            --gold: #b48c0b;
-            --bg-gray: #f4f7f9;
-            --white: #ffffff;
-            --drawer-bg: #1a2a6c;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            margin: 0; background-color: var(--bg-gray);
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh;
-            padding-bottom: 70px; /* مساحة إضافية لضمان عدم تغطية المحتوى بالشريط الثابت */
-        }
-
-        /* حاوية الشعار الدائرية */
-        .rtiqa-logo-circle {
-            width: 160px; height: 160px;
-            margin: 30px auto 10px;
-            border-radius: 50%;
-            background: #000;
-            border: 4px solid var(--gold);
-            box-shadow: 0 10px 25px rgba(26, 42, 108, 0.2);
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-        }
-        .rtiqa-logo-circle img { width: 100%; height: auto; display: block; }
-
-        .title { 
-            font-family: 'Arial Black', 'Segoe UI', sans-serif;
-            font-size: 2.4rem; color: var(--primary-blue); 
-            margin: 15px 0 5px; font-weight: 900; 
-            letter-spacing: -1.5px;
-        }
-
-        .slogan { color: var(--gold); font-size: 1.1rem; margin-bottom: 30px; font-weight: bold; }
-
-        /* --- الشريط الثابت بالأسفل --- */
-        .fixed-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: var(--white);
-            border-top: 2px solid var(--gold);
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 20px;
-            box-sizing: border-box;
-            z-index: 1000;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
-        }
-
-        .signature-item {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.4;
-        }
-
-        .role { font-size: 0.75rem; color: #64748b; font-weight: bold; }
-        .name { font-size: 0.9rem; color: var(--primary-blue); font-weight: 800; }
-
-        /* بقية التنسيقات */
-        .header-bar {
-            width: 100%; height: 60px; background: var(--primary-blue);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 15px; box-sizing: border-box; color: white;
-            position: fixed; top: 0; z-index: 1000;
-        }
-
-        .drawer-btn { font-size: 24px; cursor: pointer; color: var(--gold); background: none; border: none; }
-
-        .drawer {
-            position: fixed; top: 0; right: -280px; width: 280px; height: 100%;
-            background: var(--drawer-bg); transition: 0.3s ease; z-index: 2000; color: white;
-        }
+        :root { --primary: #1a2a6c; --gold: #b48c0b; --bg: #f4f7f9; --white: #ffffff; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 90px; }
+        .header-bar { width: 100%; height: 60px; background: var(--primary); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-sizing: border-box; color: white; position: fixed; top: 0; z-index: 1000; }
+        .drawer { position: fixed; top: 0; right: -280px; width: 280px; height: 100%; background: var(--primary); transition: 0.3s ease; z-index: 2000; color: white; padding-top: 20px; }
         .drawer.open { right: 0; }
-
-        .container {
-            width: 90%; max-width: 550px; background: var(--white);
-            padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            text-align: center; margin-top: 80px; display: none;
-        }
+        .drawer-item { padding: 15px 25px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1500; }
+        .container { width: 92%; max-width: 600px; background: var(--white); padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; margin-top: 80px; display: none; }
         .active { display: block; }
-
-        select, input {
-            width: 100%; padding: 15px; border: 2px solid #eef2f6; border-radius: 15px;
-            font-size: 1.1rem; margin-bottom: 15px; text-align: center; background: #f8fafc;
-        }
-
-        .btn { width: 100%; padding: 16px; border: none; border-radius: 15px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
-        .btn-main { background: var(--primary-blue); color: white; }
+        .rtiqa-logo-circle { width: 110px; height: 110px; margin: 0 auto 15px; border-radius: 50%; background: #000; border: 4px solid var(--gold); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .rtiqa-logo-circle img { width: 100%; height: auto; }
+        .activity-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 20px; }
+        .activity-card { padding: 15px 5px; background: #fff; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 0.8rem; transition: 0.3s; }
+        .unlocked { border-color: var(--primary); color: var(--primary); box-shadow: 0 4px 8px rgba(26,42,108,0.1); }
+        .completed { background: #dcfce7; border-color: #22c55e; color: #166534; }
+        .locked { opacity: 0.3; cursor: not-allowed; }
+        .progress-container { width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; margin-bottom: 25px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--gold); width: 0%; transition: 0.4s; }
+        .q-text { font-size: 1.15rem; font-weight: bold; color: var(--primary); margin-bottom: 15px; text-align: right; background: #f0f4f8; padding: 20px; border-radius: 12px; }
+        .option-item { display: flex; align-items: center; background: #f8fafc; padding: 15px; margin-bottom: 10px; border-radius: 12px; border: 2px solid #eef2f6; cursor: pointer; text-align: right; }
+        .option-item input { margin-left: 15px; width: 20px; height: 20px; accent-color: var(--primary); }
+        .fixed-footer { position: fixed; bottom: 0; width: 100%; background: var(--white); border-top: 2px solid var(--gold); display: flex; justify-content: space-between; padding: 12px 20px; box-sizing: border-box; z-index: 1000; font-size: 0.8rem; }
+        .btn-main { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
+        select { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #eef2f6; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
+    <div id="sideDrawer" class="drawer">
+        <div class="drawer-item" onclick="location.reload()">🏠 الصفحة الرئيسية</div>
+        <div class="drawer-item" onclick="window.open('https://online.fliphtml5.com/uvvlv/pnot/', '_blank')">📚 مكتبة الأنشطة</div>
+    </div>
+    <div id="overlay" class="overlay" onclick="toggleDrawer()"></div>
+
     <div class="header-bar">
-        <button class="drawer-btn" onclick="toggleDrawer()">☰</button>
+        <button onclick="toggleDrawer()" style="background:none; border:none; color:var(--gold); font-size:24px; cursor:pointer;">☰</button>
         <div style="font-weight: bold;">منصة ارتقاء التعليمية</div>
         <div style="width: 30px;"></div>
     </div>
 
-    <div id="screen_start" class="container active">
-        <div class="rtiqa-logo-circle">
-            <img src="https://raw.githubusercontent.com/aliali1981/bayan-platform/fba633b5ad65c9685dede092b3c03cfb1197c6b9/irtiqaa.png" alt="شعار المبادرة">
-        </div>
-        <h1 class="title">مبادرة ارتقاء</h1>
-        <p class="slogan">نرمم الأساس لنبني الإنجاز</p>
-
-        <select id="sel_class" onchange="updateStudentNames()">
-            <option value="" disabled selected>-- اختر الفصل --</option>
-            <option>7-1</option><option>7-2</option><option>7-3</option>
-        </select>
+    <div id="screen_login" class="container active">
+        <div class="rtiqa-logo-circle"><img src="https://raw.githubusercontent.com/aliali1981/bayan-platform/fba633b5ad65c9685dede092b3c03cfb1197c6b9/irtiqaa.png"></div>
+        <select id="sel_class" onchange="updateStudents()"><option value="" disabled selected>-- اختر الفصل --</option><option>7-1</option><option>7-2</option><option>7-3</option></select>
         <select id="sel_name"><option value="" disabled selected>-- اختر اسمك --</option></select>
-        <button class="btn btn-main" onclick="goToPassword()">دخول للمنصة 🚀</button>
+        <button class="btn-main" onclick="handleLogin()">دخول 🚀</button>
+    </div>
+
+    <div id="screen_activities" class="container">
+        <h3 id="welcome_msg" style="color: var(--primary); margin-top: 0;"></h3>
+        <div id="path_badge" style="display:inline-block; padding:6px 15px; border-radius:20px; font-size:0.85rem; font-weight:bold; margin-bottom:20px;"></div>
+        <div class="activity-grid" id="main_grid"></div>
+    </div>
+
+    <div id="screen_quiz" class="container">
+        <div class="progress-container"><div id="p_bar" class="progress-bar"></div></div>
+        <div id="quiz_content"></div>
+        <button id="next_btn" class="btn-main" style="display:none;" onclick="checkAnswer()">تأكيد الإجابة</button>
     </div>
 
     <div class="fixed-footer">
-        <div class="signature-item" style="text-align: right;">
-            <span class="role">تصميم الأستاذ:</span>
-            <span class="name">علي محمد علي</span>
-        </div>
-        <div class="signature-item" style="text-align: left;">
-            <span class="role">مدير المدرسة الأستاذ:</span>
-            <span class="name">هشام الكحالي</span>
-        </div>
+        <div style="text-align:right;">تصميم الأستاذ:<br><b>علي محمد علي</b></div>
+        <div style="text-align:left;">مدير المدرسة الأستاذ:<br><b>هشام الكحالي</b></div>
     </div>
 
     <script>
-        // الكود البرمجي كما هو لضمان عمل الفصول والطلاب
         const studentsData = { "7-1": ["احمد امجد احمد نجاد", "أحمد بن سعيد بن صالح جداد", "العبد بن محمد بن زائد مسن", "النابي بن محمد بن سهيل مسن", "بخيت بن احمد بن فريح مسن", "تميم بن محمد بن جديد جداد", "تميم بن محمد بن عبدالله المسهلي", "حمد بن محمد بن احمد الهزار", "حمد بن محمد بن سعيد مسن", "راشد بن محمد بن احمد مسن", "سالم بن سعد بن صلاح رعفيت", "سعيد بن شهاب بن احمد مسن", "سعيد بن محمد بن صالح جداد", "سعيد بن محمد بن مبارك جداد", "سلطان بن حمزة بن مسلم ربعات", "عامر بن محمد بن مسلم المسهلي", "عبد الله بن سالم بن سليم قمصيت", "عمر احمد محمد احمد", "عمر عبد القوي ابراهيم", "فريح بن عبد الله بن فريح مسن", "مجتبى عيسى محمد", "مسلم بن محمد بن عوض الوهيبي", "ناصر بن سالم بن ظويهر جداد", "ياسر بن عادل بن سالم مسن", "يوسف عمر احمد عبد الرحمن"], "7-2": ["ابراهيم محمد سالم السطري", "العباس بن مبخوت بن سالم مسن", "المنذر بن فواز بن عبدالله الهاشمي", "امير بن ناصر بن عبدالله البلوشي", "حسين سلامه حسين شليل", "خالد بن سالم بن علي العلوي", "خالد بن محمد بن مطر جداد", "خالد بن مسلم بن احمد جداد", "رويزم بن مسلم بن صندل المحرمي", "سالم بن مبارك بن محمد الراشدي", "سعد بن محمد بن حفيظ خوار", "سعود بن عبد الله بن بخيت مسن", "سعيد بن عبد الله بن احمد جداد", "سعيد بن مسلم بن عبدالله جداد", "سلطان بن مسلم بن صالح جداد", "عبد الله بن عارف بن سالم جداد", "علي بن سعيد بن علي خوار", "عمر فؤاد فهمي فؤاد", "فهد بن غانم بن سالم جداد", "محسن معتصم محمد الامام", "محمد بن سالم بن مبخوت الراشدي", "مسلم بن سالم بن سهيل الراشدي", "مصطفى محمود كريم احمد", "معاذ احمد سميح علي سيد", "منيف بن سعيد بن محمد جداد", "هادف بن سعيد بن حسن خوار", "وائل بن حمود بن سالم الوائلي"], "7-3": ["أحمد بن نايف بن عبدالله جداد", "الطلح بن سالم بن حسن خوار", "بخيت بن مسلم سالم الراشدي", "بدر بن عامر بن مسلم جداد", "حثيث بن سلطان بن محمد مسن", "حمد بن محمد بن عبدالله جداد", "سالم بن احمد بن سالم جداد", "سعيد بن مبروك بن سالم المسهلي", "سهيل بن عبدالله بن سهيل خوار", "عبد الله أمير عبدالله نصر", "عبدالله بن محمد بن علي العامري", "علي بن ثاني بن علي جداد", "فارس زياد محمد ابو رواع", "مبارك بن سعيد بن سالم مسن", "محسن بن عقيل بن سالم خوار", "محمد بن بخيت بن فرج المهري", "محمد بن علي بن بخيت الراشدي", "محمد بن غانم بن الرضه جداد", "محمد بن مسلم بن محمد جداد", "محمد بن ناصر بن عبدالله جداد", "محمد بن هيثم بن سالم جداد", "مسلم بن حسن بن هادف خوار", "معاذ فؤاد الحنيش الاحمد", "ناصر بن علي بن ناصر جداد", "نور الدين محسن العلي", "هيثم بن محمد بن سالم جداد"] };
+        const enrichmentList = ["عمر احمد محمد احمد", "عمر عبد القوي ابراهيم", "يوسف عمر احمد عبد الرحمن", "مصطفى محمود كريم احمد"];
 
-        function updateStudentNames() {
+        const remedialQs = [
+            {q:"كلمة (طاولة) اسم لأنها تَدُل على:", a:["جماد","فعل","حرف","زمان"], c:0},
+            {q:"(يذاكر) فعل نوعه:", a:["ماضٍ","مضارع","أمر","مستقبل"], c:1},
+            {q:"الحرف في جملة (في المدرسة) هو:", a:["المدرسة","في","اسم","فعل"], c:1},
+            {q:"من علامات الاسم المُميزة:", a:["التنوين","سوف","تاء الفاعل","الجزم"], c:0},
+            {q:"الفعل (قم) هو فعل:", a:["ماضٍ","مضارع","أمر","مرفوع"], c:2},
+            {q:"كلمة (الصدق) اسم علامته:", a:["التنوين","ال التعريف","الجر","النداء"], c:1},
+            {q:"(إلى) هي كلمة نوعها:", a:["اسم","فعل","حرف","ظرف"], c:2},
+            {q:"الكلمة التي تدل على حدث انتهى هي فعل:", a:["مضارع","ماضٍ","أمر","اسم"], c:1},
+            {q:"(عمان) اسم يدل على:", a:["حيوان","نبات","بلد","جماد"], c:2},
+            {q:"أقسام الكلمة في اللغة العربية:", a:["اسم فعل حرف","خبر مبتدأ","فاعل مفعول","جر نصب"], c:0}
+        ];
+
+        const enrichmentQs = [
+            {q:"المفعول المطلق اسم مشتق من لفظ:", a:["الفاعل","الفعل","المفعول به","المبتدأ"], c:1},
+            {q:"في جملة (انطلق انطلاقاً) كلمة انطلاقاً:", a:["مؤكد للفعل","مبين للنوع","مبين للعدد","حال"], c:0},
+            {q:"(صبرت صبراً جميلاً) نوع المفعول المطلق هنا:", a:["مؤكد للفعل","مبين للنوع","مبين للعدد","تمييز"], c:1},
+            {q:"(سجدت سجدتين) المفعول المطلق يدل على:", a:["تأكيد","نوع","عدد","صفة"], c:2},
+            {q:"علامة إعراب المفعول المطلق دائماً هي:", a:["الرفع","الجر","النصب","الجزم"], c:2},
+            {q:"المفعول المطلق المبين للنوع يأتي بعده:", a:["فاعل","صفة أو مضاف إليه","حرف جر","مبتدأ"], c:1},
+            {q:"(ورتل القرآن ترتيلاً) المفعول المطلق هو:", a:["ورتل","القرآن","ترتيلاً","ضمير"], c:2},
+            {q:"أي جملة تشتمل على مفعول مطلق مبين للعدد؟", a:["أكلت أكلاً","أكلت أكلة","أكلت بشراهة","أكلت طعاماً"], c:1},
+            {q:"المفعول المطلق المؤكد للفعل لا يتبع بـ:", a:["صفة","فعل","فاعل","اسم مجرور"], c:0},
+            {q:"إعراب كلمة (فهماً) في (فهمت فهماً):", a:["مرفوع","منصوب بالفتحة","مجرور","مبني"], c:1}
+        ];
+
+        let user="", path="", currentQ=0, activeQs=[], selectedVal=null, actIdx=0;
+
+        function toggleDrawer() {
+            document.getElementById('sideDrawer').classList.toggle('open');
+            document.getElementById('overlay').style.display = 
+                document.getElementById('sideDrawer').classList.contains('open') ? 'block' : 'none';
+        }
+
+        function updateStudents() {
             const cls = document.getElementById('sel_class').value;
             const sel = document.getElementById('sel_name');
             sel.innerHTML = '<option value="" disabled selected>-- اختر اسمك --</option>';
-            studentsData[cls].forEach((n, i) => {
-                let o = document.createElement('option'); o.value = n; o.innerText = `${i+1}. ${n}`; sel.appendChild(o);
+            studentsData[cls].forEach(n => {
+                let o = document.createElement('option'); o.value=n; o.innerText=n; sel.appendChild(o);
             });
         }
-        function toggleDrawer() { /* وظيفة القائمة */ }
-        function goToPassword() { /* وظيفة الانتقال */ }
+
+        function handleLogin() {
+            user = document.getElementById('sel_name').value;
+            if(!user) return;
+            path = enrichmentList.includes(user) ? "إثرائي" : "علاجي";
+            showScreen('screen_activities');
+            renderGrid();
+        }
+
+        function renderGrid() {
+            document.getElementById('welcome_msg').innerText = `أهلاً بك: ${user.split(' ')[0]}`;
+            const badge = document.getElementById('path_badge');
+            badge.innerText = `مسارك: ${path}`;
+            badge.style.background = path==="إثرائي"?"#dcfce7":"#fee2e2";
+            badge.style.color = path==="إثرائي"?"#166534":"#991b1b";
+
+            const grid = document.getElementById('main_grid'); grid.innerHTML = '';
+            const progress = JSON.parse(localStorage.getItem('rt_'+user)) || [];
+            
+            for(let i=0; i<10; i++) {
+                const card = document.createElement('div');
+                const isUnlocked = i===0 || progress.includes(i-1);
+                card.className = `activity-card ${progress.includes(i)?'completed':isUnlocked?'unlocked':'locked'}`;
+                card.innerText = `نشاط ${i+1}`;
+                card.onclick = () => isUnlocked ? startQuiz(i) : null;
+                grid.appendChild(card);
+            }
+        }
+
+        function startQuiz(idx) {
+            actIdx = idx; currentQ = 0;
+            // تثبيت الأسئلة الصحيحة للنشاط الأول
+            activeQs = path==="إثرائي" ? enrichmentQs : remedialQs;
+            showScreen('screen_quiz');
+            renderQ();
+        }
+
+        function renderQ() {
+            selectedVal = null; document.getElementById('next_btn').style.display='none';
+            const q = activeQs[currentQ];
+            const content = document.getElementById('quiz_content');
+            content.innerHTML = `<div class="q-text">${currentQ+1}. ${q.q}</div>`;
+            
+            q.a.forEach((opt, idx) => {
+                const item = document.createElement('div'); item.className='option-item';
+                item.innerHTML = `<input type="radio" name="opt" id="o${idx}"><label style="flex:1; cursor:pointer;" for="o${idx}">${opt}</label>`;
+                item.onclick = () => {
+                    document.getElementById(`o${idx}`).checked = true;
+                    selectedVal = idx;
+                    document.getElementById('next_btn').style.display = 'block';
+                };
+                content.appendChild(item);
+            });
+            document.getElementById('p_bar').style.width = `${(currentQ / activeQs.length) * 100}%`;
+        }
+
+        function checkAnswer() {
+            if(selectedVal === activeQs[currentQ].c) {
+                currentQ++;
+                if(currentQ < activeQs.length) {
+                    renderQ();
+                } else {
+                    let p = JSON.parse(localStorage.getItem('rt_'+user)) || [];
+                    if(!p.includes(actIdx)) p.push(actIdx);
+                    localStorage.setItem('rt_'+user, JSON.stringify(p));
+                    showScreen('screen_activities');
+                    renderGrid();
+                }
+            } else {
+                // تصفير الاختيار للمحاولة مرة أخرى دون تغذية راجعة
+                const radios = document.getElementsByName('opt');
+                radios.forEach(r => r.checked = false);
+                selectedVal = null;
+                document.getElementById('next_btn').style.display = 'none';
+            }
+        }
+
+        function showScreen(id) {
+            document.querySelectorAll('.container').forEach(c=>c.style.display='none');
+            document.getElementById(id).style.display='block';
+        }
     </script>
 </body>
 </html>
