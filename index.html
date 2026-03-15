@@ -11,7 +11,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
         body { background-color: var(--bg); color: var(--text); padding-top: 80px; line-height: 1.6; }
 
-        /* Navigation */
         nav { position: fixed; top: 0; width: 100%; background: #1e293b; display: flex; justify-content: center; gap: 20px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.3); z-index: 1000; }
         nav button { padding: 8px 25px; border: none; background: none; color: white; font-weight: bold; cursor: pointer; border-radius: 50px; transition: 0.3s; }
         nav button.active { background: var(--primary); }
@@ -20,44 +19,43 @@
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Hero & Grid */
         .hero { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #1e40af, #7c3aed); border-radius: 20px; margin-bottom: 40px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
         .card { background: var(--card-bg); padding: 25px; border-radius: 15px; text-align: center; border: 2px solid #334155; cursor: pointer; transition: 0.3s; font-weight: bold; }
         .card:hover { border-color: var(--primary); transform: translateY(-5px); }
 
-        /* Activities Section */
         .activity-block { background: var(--card-bg); margin-bottom: 12px; border-radius: 12px; border-right: 6px solid #475569; overflow: hidden; }
         .activity-block.active-path { border-right-color: var(--primary); }
         .activity-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .drop-content { display: none; padding: 20px; background: #0f172a; border-top: 1px solid #334155; }
         
         .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
-        .btn-act { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.2s; color: white; }
+        .btn-act { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.2s; color: white; flex: 1; min-width: 120px; justify-content: center; }
         .btn-exp { background: #0369a1; }
         .btn-quiz { background: #166534; }
         .btn-down { background: #475569; }
-        .btn-act:hover { opacity: 0.8; transform: scale(1.02); }
+        .btn-watch { background: #854d0e; }
 
-        /* Features & Achievements (From Image) */
+        /* Quiz Styles */
+        .quiz-container { background: #1e293b; padding: 20px; border-radius: 10px; margin-top: 15px; }
+        .option { background: #334155; padding: 12px; border-radius: 8px; margin: 8px 0; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
+        .option:hover { background: #475569; }
+        .correct { background: var(--success) !important; color: white; }
+        .wrong { background: var(--danger) !important; color: white; }
+
+        /* Features Section */
         .features-section { margin-top: 60px; padding: 40px 20px; background: #020617; border-radius: 20px; }
         .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
         .feat-box { padding: 30px; border-radius: 15px; text-align: center; }
-        .feat-box i { font-size: 2.5rem; margin-bottom: 15px; }
         .b-blue { background: #1e3a8a; border: 1px solid #3b82f6; }
         .b-purple { background: #581c87; border: 1px solid #a855f7; }
         .b-green { background: #064e3b; border: 1px solid #10b981; }
 
-        .ach-container { background: #312e81; padding: 30px; border-radius: 15px; margin-top: 30px; }
-        .ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .ach-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px; }
-
-        /* Footer */
         footer { margin-top: 50px; padding: 30px; background: #1e293b; border-top: 3px solid var(--primary); }
         .footer-content { display: flex; justify-content: space-between; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; gap: 30px; }
-        
-        .back-btn { color: var(--primary); cursor: pointer; margin-bottom: 20px; display: inline-block; }
-        .coming-soon { color: #94a3b8; font-style: italic; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; text-align: center; }
+        .back-btn { color: var(--primary); cursor: pointer; margin-bottom: 20px; display: inline-block; font-weight: bold; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; margin-top: 10px; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
     </style>
 </head>
 <body>
@@ -69,10 +67,7 @@
 
     <section id="home" class="page active">
         <div id="class-view">
-            <div class="hero">
-                <h1>مبادرة إتقان</h1>
-                <p>لتعزيز مهارات اللغة العربية لطلاب مدرسة يزيد بن الحارث</p>
-            </div>
+            <div class="hero"><h1>مبادرة إتقان</h1><p>لتعزيز مهارات اللغة العربية | مدرسة يزيد بن الحارث</p></div>
             <h2 style="text-align: center; margin-bottom: 20px;">اختر الصف الدراسي</h2>
             <div class="grid">
                 <div class="card" onclick="loadStudents('7/1')">الصف السابع / 1</div>
@@ -97,31 +92,9 @@
         <div class="features-section">
             <h2 style="text-align: center;"><i class="fas fa-sparkles"></i> ميزات المبادرة وإنجازاتها</h2>
             <div class="feat-grid">
-                <div class="feat-box b-blue">
-                    <i class="fas fa-bolt"></i>
-                    <h3>سهولة الوصول</h3>
-                    <p>واجهة بسيطة تتيح للطلاب تحميل الأنشطة مباشرة بصيغة PDF من أي جهاز.</p>
-                </div>
-                <div class="feat-box b-purple">
-                    <i class="fas fa-bullseye"></i>
-                    <h3>تعليم متمايز</h3>
-                    <p>مسارات مخصصة (إثرائية وعلاجية) تراعي الفروق الفردية ومستويات الإتقان لدى الطلاب.</p>
-                </div>
-                <div class="feat-box b-green">
-                    <i class="fas fa-book"></i>
-                    <h3>محتوى شامل</h3>
-                    <p>تغطية كاملة لمهارات النحو والبلاغة والإملاء لصفوف التعليم الأساسي (5-8).</p>
-                </div>
-            </div>
-
-            <div class="ach-container">
-                <h3 style="text-align: center;"><i class="fas fa-trophy"></i> إنجازات المبادرة</h3>
-                <div class="ach-grid">
-                    <div class="ach-item"><i class="fas fa-chart-line" style="color:#fbbf24; font-size:1.5rem;"></i> <div><strong>رفع مستوى التحصيل</strong><p style="font-size:0.8rem">تحسن ملموس في إعراب النصوص وفهم القواعد.</p></div></div>
-                    <div class="ach-item"><i class="fas fa-brain" style="color:#60a5fa; font-size:1.5rem;"></i> <div><strong>تطوير التفكير النقدي</strong><p style="font-size:0.8rem">أنشطة تحفز على تذوق الأدب وتحليل الجمل.</p></div></div>
-                    <div class="ach-item"><i class="fas fa-users" style="color:#34d399; font-size:1.5rem;"></i> <div><strong>تحقيق التعلم المتمايز</strong><p style="font-size:0.8rem">مراعاة الفروق الفردية بين الطلبة بفاعلية عالية.</p></div></div>
-                    <div class="ach-item"><i class="fas fa-shield-alt" style="color:#f87171; font-size:1.5rem;"></i> <div><strong>بناء الثقة اللغوية</strong><p style="font-size:0.8rem">زيادة ثقة الطلبة في التحدث والكتابة بالفصحى.</p></div></div>
-                </div>
+                <div class="feat-box b-blue"><i class="fas fa-bolt"></i><h3>سهولة الوصول</h3><p>تحميل الأنشطة مباشرة بصيغة PDF من أي جهاز.</p></div>
+                <div class="feat-box b-purple"><i class="fas fa-bullseye"></i><h3>تعليم متمايز</h3><p>مسارات إثرائية وعلاجية تراعي الفروق الفردية.</p></div>
+                <div class="feat-box b-green"><i class="fas fa-book"></i><h3>محتوى شامل</h3><p>تغطية كاملة لمهارات النحو والبلاغة والإملاء.</p></div>
             </div>
         </div>
     </section>
@@ -129,89 +102,60 @@
     <section id="about" class="page">
         <div class="hero" style="background: linear-gradient(to right, #2563eb, #60a5fa);">
             <h1>من نحن <i class="fas fa-star" style="color: #fbbf24;"></i></h1>
-            <p>تعرف على مبادرة "إتقان" للغة العربية وأهدافها</p>
+            <p>مبادرة "إتقان" لرفع المستوى التحصيلي</p>
         </div>
-
-        <div class="card" style="text-align: right; margin-bottom: 25px; border-right: 6px solid var(--purple);">
-            <h3 style="color: #ef4444;"><i class="fas fa-bullseye"></i> عن المبادرة</h3>
-            <p style="margin-top: 10px;">مبادرة "إتقان" هي مبادرة تعليمية متخصصة في مادة اللغة العربية بمدرسة يزيد بن الحارث للتعليم الأساسي (5-8). تهدف المبادرة إلى رفع المستوى التحصيلي للطلبة عبر أنشطة تفاعلية تراعي الفروق الفردية، وتوفر مساراً علاجياً لتقوية الأساسيات ومساراً إثرائياً لتحدي قدرات المتفوقين.</p>
+        <div class="card" style="text-align: right; margin-bottom: 20px; border-right: 6px solid var(--purple);">
+            <h3 style="color: #ef4444;">عن المبادرة</h3>
+            <p>مبادرة تعليمية متخصصة في مادة اللغة العربية بمدرسة يزيد بن الحارث (5-8)، تهدف لمعالجة التحديات اللغوية وتعزيز مهارات الفصحى.</p>
         </div>
-
-        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
-            <div class="card" style="text-align: right; border-right: 6px solid #10b981;">
-                <h4 style="color: #10b981;">الأنشطة الإثرائية <i class="fas fa-award"></i></h4>
-                <ul style="margin-top: 10px; padding-right: 20px; font-size: 0.9rem;">
-                    <li>تحدي قدرات الطلبة المتميزين لغوياً.</li>
-                    <li>تطوير مهارات التذوق الأدبي والتحليل.</li>
-                    <li>توسيع آفاق المعرفة بالبلاغة العربية.</li>
-                    <li>تحفيز الإبداع في الكتابة والتعبير.</li>
-                </ul>
-            </div>
-            <div class="card" style="text-align: right; border-right: 6px solid #3b82f6;">
-                <h4 style="color: #3b82f6;">الأنشطة العلاجية <i class="fas fa-tools"></i></h4>
-                <ul style="margin-top: 10px; padding-right: 20px; font-size: 0.9rem;">
-                    <li>معالجة نقاط الضعف في القواعد النحوية.</li>
-                    <li>تبسيط مفاهيم الصرف والإملاء.</li>
-                    <li>تقوية أساسيات القراءة الصحيحة.</li>
-                    <li>بناء الثقة في التحدث بالفصحى.</li>
-                </ul>
-            </div>
-        </div>
-
         <div class="card" style="text-align: right; border-right: 6px solid var(--primary);">
-            <h3 style="color: #60a5fa;"><i class="fas fa-chalkboard-teacher"></i> منفذ المبادرة</h3>
-            <h4 style="margin-top: 10px;">الأستاذ علي محمد علي محمد</h4>
-            <p style="color: #94a3b8; font-size: 0.9rem;">معلم لغة عربية - مدرسة يزيد بن الحارث (5-8)</p>
-            <p style="margin-top: 15px;">يؤمن منفذ المبادرة بأن لكل طالب قدرات فريدة يمكن صقلها بالاهتمام والوسائل التعليمية المناسبة، ويسعى من خلال "إتقان" لتطوير مخرجات تعلم مادة اللغة العربية.</p>
-        </div>
-
-        <div class="card" style="text-align: center; margin-top: 25px; border-right: 6px solid #fbbf24;">
-            <h3 style="color: #fbbf24;"><i class="fas fa-eye"></i> رؤيتنا</h3>
-            <p style="font-style: italic; margin-top: 10px; font-size: 1.1rem;">"نسعى لأن نكون المرجع الأول في توفير الأنشطة التعليمية المتميزة في مادة اللغة العربية، ونساهم في بناء جيل فصيح قادر على مواجهة تحديات المستقبل بثقة وإبداع"</p>
+            <h3 style="color: #60a5fa;">منفذ المبادرة</h3>
+            <h4>الأستاذ علي محمد علي محمد</h4>
+            <p style="color: #94a3b8;">معلم لغة عربية - مدرسة يزيد بن الحارث</p>
         </div>
     </section>
 
     <footer>
         <div class="footer-content">
-            <div style="text-align: right;">
-                <p style="color: #94a3b8; font-size: 0.9rem;">تصميم ومنفذ المبادرة</p>
-                <h3 style="color: #60a5fa;">الأستاذ علي محمد علي محمد</h3>
-                <p style="font-size: 0.8rem;">معلم اللغة العربية - مدرسة يزيد بن الحارث</p>
-            </div>
-            <div style="text-align: left;">
-                <p style="color: #94a3b8; font-size: 0.9rem;">تحت إشراف مدير المدرسة</p>
-                <h3 style="color: #60a5fa;">الأستاذ هشام الكحالي</h3>
-                <p style="font-size: 0.8rem;">مدير مدرسة يزيد بن الحارث للتعليم الأساسي</p>
-            </div>
+            <div style="text-align: right;"><p style="color: #94a3b8;">تصميم ومنفذ المبادرة</p><h3 style="color: #60a5fa;">الأستاذ علي محمد علي محمد</h3></div>
+            <div style="text-align: left;"><p style="color: #94a3b8;">تحت إشراف مدير المدرسة</p><h3 style="color: #60a5fa;">الأستاذ هشام الكحالي</h3></div>
         </div>
-        <p style="text-align: center; margin-top: 30px; font-size: 0.75rem; color: #475569;">© 2026 مبادرة إتقان - مادة اللغة العربية. جميع الحقوق محفوظة.</p>
     </footer>
 
     <script>
         const enrichmentStudents = ["عمر احمد محمد احمد", "عمر عبدالقوى ابراهيم ابراهيم", "يوسف عمر احمد عبد الرحمن حاكم", "مصطفى محمود كريم ابراهيم احمد"];
         const studentsData = {
-            '7/1': ["احمد امجد احمد أحمد نجاد", "أحمد بن سعيد بن صالح أحمد جداد", "العبد بن محمد بن العبد زائد مسن", "النابي بن محمد بن سالم سهيل مسن", "بخيت بن احمد بن بخيت فريح مسن الكثيري", "تميم بن محمد بن سهيل جديد جداد الكثيري", "تميم بن محمد بن مبروك عبدالله المسهلي", "عمر احمد محمد احمد", "عمر عبدالقوى ابراهيم ابراهيم", "يوسف عمر احمد عبد الرحمن حاكم"],
-            '7/2': ["ابراهيم محمد سالم السطري", "العباس بن مبخوت بن سالم مسن بيت كثير", "حسين سلامه حسين علي شليل", "خالد بن سالم بن علي عبدالله العلوي", "مصطفى محمود كريم ابراهيم احمد", "معاذ احمد سميح علي سيد"],
-            '7/3': ["أحمد بن نائف بن عبدالله محمد جداد", "الطلح بن سالم بن حسن علي خوار", "بخيت بن مسلم سالم مبخوت الراشدي", "نور الدين محسن العلي", "معاذ فؤاد الحنيش الاحمد"]
+            '7/1': ["احمد امجد احمد أحمد نجاد", "أحمد بن سعيد بن صالح أحمد جداد", "عمر احمد محمد احمد", "عمر عبدالقوى ابراهيم ابراهيم", "يوسف عمر احمد عبد الرحمن حاكم"],
+            '7/2': ["ابراهيم محمد سالم السطري", "مصطفى محمود كريم ابراهيم احمد"],
+            '7/3': ["نور الدين محسن العلي", "معاذ فؤاد الحنيش الاحمد"]
         };
+
+        const quizData = {
+            remedial: [
+                { q: "ما هي الحركة التي توضع فوق الحرف ليفتح الفم عند النطق؟", a: ["الضمة", "الكسرة", "الفتحة"], c: 2 },
+                { q: "الكلمة التي تحتوي على حرف مضموم هي:", a: ["دَرَسَ", "كُتِبَ", "شَرِبَ"], c: 1 }
+            ],
+            enrichment: [
+                { q: "المبتدأ في جملة 'العلمُ نورٌ' هو:", a: ["نورٌ", "العلمُ", "مستتر"], c: 1 },
+                { q: "علامة رفع المبتدأ المفرد هي:", a: ["الفتحة", "الكسرة", "الضمة"], c: 2 }
+            ]
+        };
+
+        let currentQIndex = 0;
 
         function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
             document.getElementById('nav-' + id).classList.add('active');
-            window.scrollTo(0,0);
         }
 
         function loadStudents(cls) {
             document.getElementById('class-view').style.display = 'none';
             document.getElementById('student-view').style.display = 'block';
             document.getElementById('class-title').innerText = 'طلاب الصف السابع / ' + cls.split('/')[1];
-            const grid = document.getElementById('students-grid');
-            grid.innerHTML = '';
-            studentsData[cls].forEach(name => {
-                grid.innerHTML += `<div class="card" onclick="loadActivities('${name}')">${name}</div>`;
-            });
+            const grid = document.getElementById('students-grid'); grid.innerHTML = '';
+            studentsData[cls].forEach(name => grid.innerHTML += `<div class="card" onclick="loadActivities('${name}')">${name}</div>`);
         }
 
         function loadActivities(name) {
@@ -220,51 +164,86 @@
             document.getElementById('st-name').innerText = 'الطالب: ' + name;
             const isEnrich = enrichmentStudents.includes(name);
             document.getElementById('st-path').innerText = isEnrich ? 'المسار: الإثرائي ✨' : 'المسار: العلاجي 📋';
-            document.getElementById('st-path').style.color = isEnrich ? 'var(--purple)' : 'var(--primary)';
-
-            const list = document.getElementById('activities-list');
-            list.innerHTML = '';
+            const list = document.getElementById('activities-list'); list.innerHTML = '';
             
             for(let i=1; i<=10; i++) {
-                const title = i === 1 ? (isEnrich ? "1. المبتدأ والخبر" : "1. أقسام الكلمة") : `${i}. نشاط لغوي ${i}`;
+                const title = i === 1 ? (isEnrich ? "1. المبتدأ والخبر" : "1. الحركات القصيرة") : `${i}. نشاط لغوي ${i}`;
                 list.innerHTML += `
                     <div class="activity-block ${i===1?'active-path':''}">
-                        <div class="activity-header" onclick="toggleContent(${i}, ${isEnrich})">
-                            <span>📌 ${title}</span>
-                            <span>${i === 1 ? '▼' : '🔒'}</span>
+                        <div class="activity-header" onclick="toggleContent(${i})">
+                            <span>📌 ${title} ${i>1?'🔒':''}</span><span>▼</span>
                         </div>
                         <div id="content-${i}" class="drop-content">
-                            <div class="btn-group">
-                                ${i === 1 ? `
-                                    <button class="btn-act btn-exp" onclick="alert('شرح المادة التعليمية...')"><i class="fas fa-book-open"></i> شرح</button>
-                                    <button class="btn-act btn-quiz" onclick="alert('بدء الاختبار التفاعلي...')"><i class="fas fa-edit"></i> اختبرني</button>
-                                ` : ''}
-                                <button class="btn-act btn-down" onclick="alert('جاري تحميل ملف النشاط رقم ${i}...')"><i class="fas fa-download"></i> تحميل النشاط</button>
-                            </div>
-                            <div id="action-zone-${i}">
-                                ${i > 1 ? '<p class="coming-soon">سيكون النشاط متاحاً قريباً إن شاء الله</p>' : ''}
-                            </div>
+                            ${i === 1 ? `
+                                <div class="btn-group">
+                                    <button class="btn-act btn-exp" onclick="showExplain(${isEnrich})"><i class="fas fa-book-open"></i> شرح</button>
+                                    <button class="btn-act btn-watch" onclick="showWatch(${isEnrich})"><i class="fas fa-play"></i> شاهد</button>
+                                    <button class="btn-act btn-quiz" onclick="startQuiz(${isEnrich})"><i class="fas fa-edit"></i> اختبرني</button>
+                                    <button class="btn-act btn-down" onclick="alert('تحميل ملف PDF...')"><i class="fas fa-download"></i> تحميل</button>
+                                </div>
+                                <div id="action-zone"></div>
+                            ` : `<p class="coming-soon">سيكون النشاط متاحاً قريباً إن شاء الله</p><button class="btn-act btn-down" style="width:100%" onclick="alert('تحميل ملف PDF...')"><i class="fas fa-download"></i> تحميل النشاط</button>`}
                         </div>
                     </div>
                 `;
             }
         }
 
-        function toggleContent(id, isEnrich) {
-            const content = document.getElementById('content-' + id);
-            const isOpen = content.style.display === 'block';
+        function toggleContent(id) {
+            const el = document.getElementById('content-' + id);
+            const isOpen = el.style.display === 'block';
             document.querySelectorAll('.drop-content').forEach(c => c.style.display = 'none');
-            if(!isOpen) content.style.display = 'block';
+            el.style.display = isOpen ? 'none' : 'block';
+        }
+
+        function showExplain(isEnrich) {
+            const zone = document.getElementById('action-zone');
+            zone.innerHTML = `<div class="quiz-container">${isEnrich ? '<h4>شرح المبتدأ والخبر:</h4><p>المبتدأ هو اسم مرفوع نبدأ به الجملة، والخبر هو ما يخبرنا عن المبتدأ ويتمم المعنى.</p>' : '<h4>شرح الحركات القصيرة:</h4><p>الفتحة (ـَ) نفتح الفم، الضمة (ـُ) نضم الشفتين، الكسرة (ـِ) نخفض الفك السفلي.</p>'}</div>`;
+        }
+
+        function showWatch(isEnrich) {
+            const zone = document.getElementById('action-zone');
+            if(!isEnrich) {
+                zone.innerHTML = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/QnHkuP7gymY?si=uxKIYZNB_qtX1vJO" frameborder="0" allowfullscreen></iframe></div>`;
+            } else {
+                zone.innerHTML = `<div class="quiz-container"><p>فيديو إثرائي حول المبتدأ والخبر [قيد التحميل]</p></div>`;
+            }
+        }
+
+        function startQuiz(isEnrich) {
+            currentQIndex = 0;
+            renderQuestion(isEnrich);
+        }
+
+        function renderQuestion(isEnrich) {
+            const zone = document.getElementById('action-zone');
+            const data = isEnrich ? quizData.enrichment : quizData.remedial;
+            const q = data[currentQIndex];
+            zone.innerHTML = `
+                <div class="quiz-container">
+                    <p style="margin-bottom:10px;">سؤال ${currentQIndex + 1} من 2:</p>
+                    <h4 style="margin-bottom:15px;">${q.q}</h4>
+                    ${q.a.map((opt, i) => `<div class="option" onclick="checkAns(this, ${i}, ${q.c}, ${isEnrich})">${opt}</div>`).join('')}
+                </div>`;
+        }
+
+        function checkAns(el, idx, correct, isEnrich) {
+            if(idx === correct) {
+                el.classList.add('correct');
+                setTimeout(() => {
+                    currentQIndex++;
+                    if(currentQIndex < 2) renderQuestion(isEnrich);
+                    else document.getElementById('action-zone').innerHTML = '<div class="quiz-container"><h4 style="color:var(--success)">ممتاز! أكملت الاختبار بنجاح.</h4></div>';
+                }, 800);
+            } else {
+                el.classList.add('wrong');
+            }
         }
 
         function goBack(to) {
-            if(to === 'class') {
-                document.getElementById('student-view').style.display = 'none';
-                document.getElementById('class-view').style.display = 'block';
-            } else {
-                document.getElementById('activity-view').style.display = 'none';
-                document.getElementById('student-view').style.display = 'block';
-            }
+            document.getElementById('activity-view').style.display = 'none';
+            document.getElementById('student-view').style.display = (to === 'student') ? 'block' : 'none';
+            document.getElementById('class-view').style.display = (to === 'class') ? 'block' : 'none';
         }
     </script>
 </body>
