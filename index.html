@@ -2,214 +2,270 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منصة ارتقاء التعليمية - الإصدار الشامل</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مبادرة إتقان | لغة عربية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #1a2a6c; --gold: #b48c0b; --bg: #f4f7f9; --white: #ffffff; --success: #22c55e; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 90px; }
+        :root { --primary: #2563eb; --purple: #7c3aed; --text: #f8fafc; --bg: #0f172a; --card-bg: #1e293b; --success: #22c55e; --danger: #ef4444; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); padding-top: 80px; line-height: 1.6; }
+
+        /* Navigation */
+        nav { position: fixed; top: 0; width: 100%; background: #1e293b; display: flex; justify-content: center; gap: 20px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.3); z-index: 1000; }
+        nav button { padding: 8px 25px; border: none; background: none; color: white; font-weight: bold; cursor: pointer; border-radius: 50px; transition: 0.3s; }
+        nav button.active { background: var(--primary); }
+
+        .page { display: none; padding: 20px 5%; max-width: 1100px; margin: 0 auto; animation: fadeIn 0.4s; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Hero & Grid */
+        .hero { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #1e40af, #7c3aed); border-radius: 20px; margin-bottom: 40px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .card { background: var(--card-bg); padding: 25px; border-radius: 15px; text-align: center; border: 2px solid #334155; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        .card:hover { border-color: var(--primary); transform: translateY(-5px); }
+
+        /* Activities Section */
+        .activity-block { background: var(--card-bg); margin-bottom: 12px; border-radius: 12px; border-right: 6px solid #475569; overflow: hidden; }
+        .activity-block.active-path { border-right-color: var(--primary); }
+        .activity-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .drop-content { display: none; padding: 20px; background: #0f172a; border-top: 1px solid #334155; }
         
-        /* الهيدر والقائمة الجانبية */
-        .header-bar { width: 100%; height: 60px; background: var(--primary); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-sizing: border-box; color: white; position: fixed; top: 0; z-index: 1000; }
-        .drawer { position: fixed; top: 0; right: -280px; width: 280px; height: 100%; background: var(--primary); transition: 0.3s ease; z-index: 2000; color: white; padding-top: 20px; }
-        .drawer.open { right: 0; }
-        .drawer-item { padding: 15px 25px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1500; }
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+        .btn-act { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.2s; color: white; }
+        .btn-exp { background: #0369a1; }
+        .btn-quiz { background: #166534; }
+        .btn-down { background: #475569; }
+        .btn-act:hover { opacity: 0.8; transform: scale(1.02); }
 
-        .container { width: 92%; max-width: 600px; background: var(--white); padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; margin-top: 80px; display: none; }
-        .active { display: block; }
+        /* Features & Achievements (From Image) */
+        .features-section { margin-top: 60px; padding: 40px 20px; background: #020617; border-radius: 20px; }
+        .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
+        .feat-box { padding: 30px; border-radius: 15px; text-align: center; }
+        .feat-box i { font-size: 2.5rem; margin-bottom: 15px; }
+        .b-blue { background: #1e3a8a; border: 1px solid #3b82f6; }
+        .b-purple { background: #581c87; border: 1px solid #a855f7; }
+        .b-green { background: #064e3b; border: 1px solid #10b981; }
+
+        .ach-container { background: #312e81; padding: 30px; border-radius: 15px; margin-top: 30px; }
+        .ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .ach-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px; }
+
+        /* Footer */
+        footer { margin-top: 50px; padding: 30px; background: #1e293b; border-top: 3px solid var(--primary); }
+        .footer-content { display: flex; justify-content: space-between; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; gap: 30px; }
         
-        /* الشعار الدائري */
-        .rtiqa-logo-circle { width: 100px; height: 100px; margin: 0 auto 15px; border-radius: 50%; background: #000; border: 3px solid var(--gold); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .rtiqa-logo-circle img { width: 100%; height: auto; }
-
-        /* شريط الإنجاز العام */
-        .overall-progress { background: #eee; border-radius: 10px; height: 15px; margin: 15px 0; overflow: hidden; position: relative; }
-        .overall-bar { background: linear-gradient(90deg, var(--gold), var(--success)); height: 100%; width: 0%; transition: 1s; }
-
-        /* أزرار القائمة المطورة */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
-        .path-option { padding: 15px; border-radius: 15px; border: 2px solid #eef2f6; background: #fff; cursor: pointer; font-weight: bold; color: var(--primary); transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .path-option:hover { border-color: var(--gold); background: #fcf9f0; transform: translateY(-3px); }
-        .path-option i { font-size: 1.5rem; }
-        .full-width { grid-column: span 2; flex-direction: row; justify-content: space-between; padding: 18px; }
-
-        /* لوحة الشرف */
-        .honor-list { text-align: right; background: #fffdf0; padding: 15px; border-radius: 12px; border: 1px solid var(--gold); margin-top: 10px; }
-        .honor-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-weight: bold; color: #856404; }
-
-        /* شبكة الأنشطة */
-        .activity-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 15px; }
-        .activity-card { padding: 12px 2px; background: #fff; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.75rem; }
-        .unlocked { border-color: var(--primary); color: var(--primary); }
-        .completed { background: #dcfce7; border-color: #22c55e; color: #166534; }
-        .locked { opacity: 0.3; cursor: not-allowed; }
-
-        .fixed-footer { position: fixed; bottom: 0; width: 100%; background: var(--white); border-top: 2px solid var(--gold); display: flex; justify-content: space-between; padding: 10px 20px; box-sizing: border-box; z-index: 1000; font-size: 0.75rem; }
-        .btn-main { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
-        .btn-back { background: #64748b; margin-top: 15px; }
-        select { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #eef2f6; margin-bottom: 12px; }
+        .back-btn { color: var(--primary); cursor: pointer; margin-bottom: 20px; display: inline-block; }
+        .coming-soon { color: #94a3b8; font-style: italic; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div id="sideDrawer" class="drawer">
-        <div class="drawer-item" onclick="location.reload()">🏠 الصفحة الرئيسية</div>
-        <div class="drawer-item" onclick="showScreen('screen_honor')">🏆 لوحة الشرف</div>
-    </div>
-    <div id="overlay" class="overlay" onclick="toggleDrawer()"></div>
+    <nav>
+        <button id="nav-home" class="active" onclick="showPage('home')">الرئيسة</button>
+        <button id="nav-about" onclick="showPage('about')">من نحن</button>
+    </nav>
 
-    <div class="header-bar">
-        <button onclick="toggleDrawer()" style="background:none; border:none; color:var(--gold); font-size:24px;">☰</button>
-        <div style="font-weight: bold;">منصة ارتقاء التعليمية</div>
-        <div id="user_init" style="background:var(--gold); width:35px; height:35px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:bold;">؟</div>
-    </div>
-
-    <div id="screen_login" class="container active">
-        <div class="rtiqa-logo-circle"><img src="https://raw.githubusercontent.com/aliali1981/bayan-platform/fba633b5ad65c9685dede092b3c03cfb1197c6b9/irtiqaa.png"></div>
-        <select id="sel_class" onchange="updateStudents()"><option value="" disabled selected>-- اختر الفصل --</option><option>7-1</option><option>7-2</option><option>7-3</option></select>
-        <select id="sel_name"><option value="" disabled selected>-- اختر اسمك --</option></select>
-        <button class="btn-main" onclick="handleLogin()">ابدأ رحلة الارتقاء 🚀</button>
-    </div>
-
-    <div id="screen_menu" class="container">
-        <div class="rtiqa-logo-circle"><img src="https://raw.githubusercontent.com/aliali1981/bayan-platform/fba633b5ad65c9685dede092b3c03cfb1197c6b9/irtiqaa.png"></div>
-        <h4 id="welcome_msg" style="color: var(--primary); margin:0;"></h4>
-        
-        <div style="text-align:right; font-size:0.8rem; margin-top:10px;">إنجازك العام: <span id="prog_per">0%</span></div>
-        <div class="overall-progress"><div id="overall_bar" class="overall-bar"></div></div>
-
-        <div class="menu-grid">
-            <button class="path-option" onclick="showScreen('screen_explain')"><span>📖</span><span>اشرح لي</span></button>
-            <button class="path-option" onclick="showScreen('screen_watch')"><span>🎥</span><span>شاهد</span></button>
-            <button class="path-option full-width" onclick="showScreen('screen_activities')"><span>✍️ اختبرني (الأنشطة)</span><span>➔</span></button>
-            <button class="path-option" onclick="showChallenge()"><span>⚡</span><span>بنك التحدي</span></button>
-            <button class="path-option" onclick="showScreen('screen_library')"><span>📚</span><span>المكتبة</span></button>
+    <section id="home" class="page active">
+        <div id="class-view">
+            <div class="hero">
+                <h1>مبادرة إتقان</h1>
+                <p>لتعزيز مهارات اللغة العربية لطلاب مدرسة يزيد بن الحارث</p>
+            </div>
+            <h2 style="text-align: center; margin-bottom: 20px;">اختر الصف الدراسي</h2>
+            <div class="grid">
+                <div class="card" onclick="loadStudents('7/1')">الصف السابع / 1</div>
+                <div class="card" onclick="loadStudents('7/2')">الصف السابع / 2</div>
+                <div class="card" onclick="loadStudents('7/3')">الصف السابع / 3</div>
+            </div>
         </div>
-    </div>
 
-    <div id="screen_honor" class="container">
-        <h3 style="color:var(--gold)">🏆 لوحة الشرف</h3>
-        <div id="honor_list" class="honor-list">
-            <div class="honor-item">🥇 الطالب المتميز قريباً...</div>
+        <div id="student-view" style="display: none;">
+            <div class="back-btn" onclick="goBack('class')">← العودة للفصول</div>
+            <h2 id="class-title" style="margin-bottom: 20px; color: var(--primary);"></h2>
+            <div id="students-grid" class="grid"></div>
         </div>
-        <button class="btn-main btn-back" onclick="showScreen('screen_menu')">عودة</button>
-    </div>
 
-    <div id="screen_library" class="container">
-        <h3 style="color:var(--gold)">📚 المكتبة الرقمية</h3>
-        <p>مجموعة من القصص والمصادر الإضافية لتعزيز مهاراتك.</p>
-        <button class="path-option full-width" onclick="window.open('https://online.fliphtml5.com/uvvlv/pnot/', '_blank')">📖 تصفح مكتبة الأنشطة</button>
-        <button class="btn-main btn-back" onclick="showScreen('screen_menu')">عودة</button>
-    </div>
-
-    <div id="screen_explain" class="container">
-        <h3 style="color:var(--gold)">اشرح لي</h3><div id="explain_text" style="text-align:right; line-height:1.6;"></div>
-        <button class="btn-main btn-back" onclick="showScreen('screen_menu')">عودة</button>
-    </div>
-
-    <div id="screen_watch" class="container">
-        <h3 style="color:var(--gold)">شاهد الفيديو</h3>
-        <div style="position:relative; padding-bottom:56.25%; height:0; border-radius:12px; overflow:hidden;">
-            <iframe id="vid_frame" style="position:absolute; top:0; left:0; width:100%; height:100%;" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+        <div id="activity-view" style="display: none;">
+            <div class="back-btn" onclick="goBack('student')">← العودة لقائمة الطلاب</div>
+            <h2 id="st-name" style="color: var(--primary);"></h2>
+            <p id="st-path" style="margin-bottom: 30px; font-weight: bold;"></p>
+            <div id="activities-list"></div>
         </div>
-        <button class="btn-main btn-back" onclick="showScreen('screen_menu')">عودة</button>
-    </div>
 
-    <div id="screen_activities" class="container">
-        <h3 style="color: var(--primary);">الأنشطة التعليمية</h3>
-        <div class="activity-grid" id="main_grid"></div>
-        <button class="btn-main btn-back" onclick="showScreen('screen_menu')">عودة</button>
-    </div>
+        <div class="features-section">
+            <h2 style="text-align: center;"><i class="fas fa-sparkles"></i> ميزات المبادرة وإنجازاتها</h2>
+            <div class="feat-grid">
+                <div class="feat-box b-blue">
+                    <i class="fas fa-bolt"></i>
+                    <h3>سهولة الوصول</h3>
+                    <p>واجهة بسيطة تتيح للطلاب تحميل الأنشطة مباشرة بصيغة PDF من أي جهاز.</p>
+                </div>
+                <div class="feat-box b-purple">
+                    <i class="fas fa-bullseye"></i>
+                    <h3>تعليم متمايز</h3>
+                    <p>مسارات مخصصة (إثرائية وعلاجية) تراعي الفروق الفردية ومستويات الإتقان لدى الطلاب.</p>
+                </div>
+                <div class="feat-box b-green">
+                    <i class="fas fa-book"></i>
+                    <h3>محتوى شامل</h3>
+                    <p>تغطية كاملة لمهارات النحو والبلاغة والإملاء لصفوف التعليم الأساسي (5-8).</p>
+                </div>
+            </div>
 
-    <div id="screen_quiz" class="container">
-        <div class="progress-container"><div id="p_bar" class="progress-bar"></div></div>
-        <div id="quiz_content"></div>
-        <button id="next_btn" class="btn-main" style="display:none;" onclick="nextQuestion()">السؤال التالي ➔</button>
-    </div>
+            <div class="ach-container">
+                <h3 style="text-align: center;"><i class="fas fa-trophy"></i> إنجازات المبادرة</h3>
+                <div class="ach-grid">
+                    <div class="ach-item"><i class="fas fa-chart-line" style="color:#fbbf24; font-size:1.5rem;"></i> <div><strong>رفع مستوى التحصيل</strong><p style="font-size:0.8rem">تحسن ملموس في إعراب النصوص وفهم القواعد.</p></div></div>
+                    <div class="ach-item"><i class="fas fa-brain" style="color:#60a5fa; font-size:1.5rem;"></i> <div><strong>تطوير التفكير النقدي</strong><p style="font-size:0.8rem">أنشطة تحفز على تذوق الأدب وتحليل الجمل.</p></div></div>
+                    <div class="ach-item"><i class="fas fa-users" style="color:#34d399; font-size:1.5rem;"></i> <div><strong>تحقيق التعلم المتمايز</strong><p style="font-size:0.8rem">مراعاة الفروق الفردية بين الطلبة بفاعلية عالية.</p></div></div>
+                    <div class="ach-item"><i class="fas fa-shield-alt" style="color:#f87171; font-size:1.5rem;"></i> <div><strong>بناء الثقة اللغوية</strong><p style="font-size:0.8rem">زيادة ثقة الطلبة في التحدث والكتابة بالفصحى.</p></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="fixed-footer">
-        <div>تصميم الأستاذ: <b>علي محمد علي</b></div>
-        <div>المدير: <b>هشام الكحالي</b></div>
-    </div>
+    <section id="about" class="page">
+        <div class="hero" style="background: linear-gradient(to right, #2563eb, #60a5fa);">
+            <h1>من نحن <i class="fas fa-star" style="color: #fbbf24;"></i></h1>
+            <p>تعرف على مبادرة "إتقان" للغة العربية وأهدافها</p>
+        </div>
+
+        <div class="card" style="text-align: right; margin-bottom: 25px; border-right: 6px solid var(--purple);">
+            <h3 style="color: #ef4444;"><i class="fas fa-bullseye"></i> عن المبادرة</h3>
+            <p style="margin-top: 10px;">مبادرة "إتقان" هي مبادرة تعليمية متخصصة في مادة اللغة العربية بمدرسة يزيد بن الحارث للتعليم الأساسي (5-8). تهدف المبادرة إلى رفع المستوى التحصيلي للطلبة عبر أنشطة تفاعلية تراعي الفروق الفردية، وتوفر مساراً علاجياً لتقوية الأساسيات ومساراً إثرائياً لتحدي قدرات المتفوقين.</p>
+        </div>
+
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
+            <div class="card" style="text-align: right; border-right: 6px solid #10b981;">
+                <h4 style="color: #10b981;">الأنشطة الإثرائية <i class="fas fa-award"></i></h4>
+                <ul style="margin-top: 10px; padding-right: 20px; font-size: 0.9rem;">
+                    <li>تحدي قدرات الطلبة المتميزين لغوياً.</li>
+                    <li>تطوير مهارات التذوق الأدبي والتحليل.</li>
+                    <li>توسيع آفاق المعرفة بالبلاغة العربية.</li>
+                    <li>تحفيز الإبداع في الكتابة والتعبير.</li>
+                </ul>
+            </div>
+            <div class="card" style="text-align: right; border-right: 6px solid #3b82f6;">
+                <h4 style="color: #3b82f6;">الأنشطة العلاجية <i class="fas fa-tools"></i></h4>
+                <ul style="margin-top: 10px; padding-right: 20px; font-size: 0.9rem;">
+                    <li>معالجة نقاط الضعف في القواعد النحوية.</li>
+                    <li>تبسيط مفاهيم الصرف والإملاء.</li>
+                    <li>تقوية أساسيات القراءة الصحيحة.</li>
+                    <li>بناء الثقة في التحدث بالفصحى.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" style="text-align: right; border-right: 6px solid var(--primary);">
+            <h3 style="color: #60a5fa;"><i class="fas fa-chalkboard-teacher"></i> منفذ المبادرة</h3>
+            <h4 style="margin-top: 10px;">الأستاذ علي محمد علي محمد</h4>
+            <p style="color: #94a3b8; font-size: 0.9rem;">معلم لغة عربية - مدرسة يزيد بن الحارث (5-8)</p>
+            <p style="margin-top: 15px;">يؤمن منفذ المبادرة بأن لكل طالب قدرات فريدة يمكن صقلها بالاهتمام والوسائل التعليمية المناسبة، ويسعى من خلال "إتقان" لتطوير مخرجات تعلم مادة اللغة العربية.</p>
+        </div>
+
+        <div class="card" style="text-align: center; margin-top: 25px; border-right: 6px solid #fbbf24;">
+            <h3 style="color: #fbbf24;"><i class="fas fa-eye"></i> رؤيتنا</h3>
+            <p style="font-style: italic; margin-top: 10px; font-size: 1.1rem;">"نسعى لأن نكون المرجع الأول في توفير الأنشطة التعليمية المتميزة في مادة اللغة العربية، ونساهم في بناء جيل فصيح قادر على مواجهة تحديات المستقبل بثقة وإبداع"</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div style="text-align: right;">
+                <p style="color: #94a3b8; font-size: 0.9rem;">تصميم ومنفذ المبادرة</p>
+                <h3 style="color: #60a5fa;">الأستاذ علي محمد علي محمد</h3>
+                <p style="font-size: 0.8rem;">معلم اللغة العربية - مدرسة يزيد بن الحارث</p>
+            </div>
+            <div style="text-align: left;">
+                <p style="color: #94a3b8; font-size: 0.9rem;">تحت إشراف مدير المدرسة</p>
+                <h3 style="color: #60a5fa;">الأستاذ هشام الكحالي</h3>
+                <p style="font-size: 0.8rem;">مدير مدرسة يزيد بن الحارث للتعليم الأساسي</p>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 30px; font-size: 0.75rem; color: #475569;">© 2026 مبادرة إتقان - مادة اللغة العربية. جميع الحقوق محفوظة.</p>
+    </footer>
 
     <script>
-        // البيانات (نفس مصفوفات الأسئلة السابقة)
-        const studentsData = { "7-1": ["احمد امجد احمد نجاد", "أحمد بن سعيد بن صالح جداد", "العبد بن محمد بن زائد مسن", "النابي بن محمد بن سهيل مسن", "بخيت بن احمد بن فريح مسن", "تميم بن محمد بن جديد جداد", "تميم بن محمد بن عبدالله المسهلي", "حمد بن محمد بن احمد الهزار", "حمد بن محمد بن سعيد مسن", "راشد بن محمد بن احمد مسن", "سالم بن سعد بن صلاح رعفيت", "سعيد بن شهاب بن احمد مسن", "سعيد بن محمد بن صالح جداد", "سعيد بن محمد بن مبارك جداد", "سلطان بن حمزة بن muslim ربعات", "عامر بن محمد بن muslim المسهلي", "عبد الله بن سالم بن سليم قمصيت", "عمر احمد محمد احمد", "عمر عبد القوي ابراهيم", "فريح بن عبد الله بن فريح مسن", "مجتبى عيسى محمد", "muslim بن محمد بن عوض الوهيبي", "ناصر بن سالم بن ظويهر جداد", "ياسر بن عادل بن سالم مسن", "يوسف عمر احمد عبد الرحمن"], "7-2": ["ابراهيم محمد سالم السطري", "العباس بن مبخوت بن سالم مسن", "المنذر بن فواز بن عبدالله الهاشمي", "امير بن ناصر بن عبدالله البلوشي", "حسين سلامه حسين شليل", "خالد بن سالم بن علي العلوي", "خالد بن محمد بن مطر جداد", "خالد بن muslim بن احمد جداد", "رويزم بن muslim بن صندل المحرمي", "سالم بن مبارك بن محمد الراشدي", "سعد بن محمد بن حفيظ خوار", "سعود بن عبد الله بن بخيت مسن", "سعيد بن عبد الله بن احمد جداد", "سعيد بن muslim بن عبدالله جداد", "سلطان بن muslim بن صالح جداد", "عبد الله بن عارف بن سالم جداد", "علي بن سعيد بن علي خوار", "عمر فؤاد فهمي fؤاد", "فهد بن غانم بن سالم جداد", "محسن معتصم محمد الامام", "محمد بن سالم بن مبخوت الراشدي", "muslim بن سالم بن سهيل الراشدي", "مصطفى محمود كريم احمد", "معاذ احمد سميح علي سيد", "منيف بن سعيد بن محمد جداد", "هادف بن سعيد بن حسن خوار", "وائل بن حمود بن سالم الوائلي"], "7-3": ["أحمد بن نايف بن عبدالله جداد", "الطلح بن سالم بن حسن خوار", "بخيت بن muslim سالم الراشدي", "بدر بن عامر بن muslim جداد", "حثيث بن سلطان بن محمد مسن", "حمد بن محمد بن عبدالله جداد", "سالم بن احمد بن سالم جداد", "سعيد بن مبروك بن سالم المسهلي", "سهيل بن عبدالله بن سهيل خوار", "عبد الله أمير عبدالله نصر", "عبدالله بن محمد بن علي العامري", "علي بن ثاني بن علي جداد", "فارس زياد محمد ابو رواع", "مبارك بن سعيد بن سالم مسن", "محسن بن عقيل بن سالم خوار", "محمد بن بخيت بن فرج المهري", "محمد بن علي بن بخيت الراشدي", "محمد بن غانم بن الرضه جداد", "محمد بن muslim بن محمد جداد", "محمد بن ناصر بن عبدالله جداد", "محمد بن هيثم بن سالم جداد", "muslim بن حسن بن هادف خوار", "معاذ fؤاد الحنيش الاحمد", "ناصر بن علي بن ناصر جداد", "نور الدين محسن العلي", "هيثم بن محمد بن سالم جداد"] };
-        const enrichmentList = ["عمر احمد محمد احمد", "عمر عبد القوي ابراهيم", "يوسف عمر احمد عبد الرحمن", "مصطفى محمود كريم احمد"];
-        const explainData = { "علاجي": "<b>أقسام الكلمة:</b><br>1. الاسم: ما دل على معنى غير مرتبط بزمان.<br>2. الفعل: ما دل على حدث مرتبط بزمان.<br>3. الحرف: لا يظهر معناه إلا مع غيره.", "إثرائي": "<b>المفعول المطلق:</b><br>هو اسم منصوب مشتق من لفظ الفعل.<br>1. مؤكد للفعل: (أحب القراءة حباً).<br>2. مبين للنوع: (صبرت صبراً جميلاً).<br>3. مبين للعدد: (سجدت سجدتين)." };
-        
-        const remedialQs = [ {q:"كلمة (طاولة) اسم لأنها تَدُل على:", a:["جماد","فعل","حرف","زمان"], c:0}, {q:"(يذاكر) فعل نوعه:", a:["ماضٍ","مضارع","أمر","مستقبل"], c:1}, {q:"الحرف في جملة (في المدرسة) هو:", a:["المدرسة","في","اسم","فعل"], c:1}, {q:"من علامات الاسم المُميزة:", a:["التنوين","سوف","تاء الفاعل","الجزم"], c:0}, {q:"الفعل (قم) هو فعل:", a:["ماضٍ","مضارع","أمر","مرفوع"], c:2}, {q:"كلمة (الصدق) اسم علامته:", a:["التنوين","ال التعريف","الجر","النداء"], c:1}, {q:"(إلى) هي كلمة نوعها:", a:["اسم","فعل","حرف","ظرف"], c:2}, {q:"الكلمة التي تدل على حدث انتهى هي فعل:", a:["مضارع","ماضٍ","أمر","اسم"], c:1}, {q:"(عمان) اسم يدل على:", a:["حيوان","نبات","بلد","جماد"], c:2}, {q:"أقسام الكلمة في اللغة العربية:", a:["اسم فعل حرف","خبر مبتدأ","فاعل مفعول","جر نصب"], c:0} ];
-        const enrichmentQs = [ {q:"المفعول المطلق اسم مشتق من لفظ:", a:["الفاعل","الفعل","المفعول به","المبتدأ"], c:1}, {q:"في جملة (انطلق انطلاقاً) كلمة انطلاقاً:", a:["مؤكد للفعل","مبين للنوع","مبين للعدد","حال"], c:0}, {q:"(صبرت صبراً جميلاً) نوع المفعول المطلق هنا:", a:["مؤكد للفعل","مبين للنوع","مبين للعدد","تمييز"], c:1}, {q:"(سجدت سجدتين) المفعول المطلق يدل على:", a:["تأكيد","نوع","عدد","صفة"], c:2}, {q:"علامة إعراب المفعول المطلق دائماً هي:", a:["الرفع","الجر","النصب","الجزم"], c:2}, {q:"المفعول المطلق المبين للنوع يأتي بعده:", a:["فاعل","صفة أو مضاف إليه","حرف جر","مبتدأ"], c:1}, {q:"(ورتل القرآن ترتيلاً) المفعول المطلق هو:", a:["ورتل","القرآن","ترتيلاً","ضمير"], c:2}, {q:"أي جملة تشتمل على مفعول مطلق مبين للعدد؟", a:["أكلت أكلاً","أكلت أكلة","أكلت بشراهة","أكلت طعاماً"], c:1}, {q:"المفعول المطلق المؤكد للفعل لا يتبع بـ:", a:["صفة","فعل","فاعل","اسم مجرور"], c:0}, {q:"إعراب كلمة (فهماً) في (فهمت فهماً):", a:["مرفوع","منصوب بالفتحة","مجرور","مبني"], c:1} ];
+        const enrichmentStudents = ["عمر احمد محمد احمد", "عمر عبدالقوى ابراهيم ابراهيم", "يوسف عمر احمد عبد الرحمن حاكم", "مصطفى محمود كريم ابراهيم احمد"];
+        const studentsData = {
+            '7/1': ["احمد امجد احمد أحمد نجاد", "أحمد بن سعيد بن صالح أحمد جداد", "العبد بن محمد بن العبد زائد مسن", "النابي بن محمد بن سالم سهيل مسن", "بخيت بن احمد بن بخيت فريح مسن الكثيري", "تميم بن محمد بن سهيل جديد جداد الكثيري", "تميم بن محمد بن مبروك عبدالله المسهلي", "عمر احمد محمد احمد", "عمر عبدالقوى ابراهيم ابراهيم", "يوسف عمر احمد عبد الرحمن حاكم"],
+            '7/2': ["ابراهيم محمد سالم السطري", "العباس بن مبخوت بن سالم مسن بيت كثير", "حسين سلامه حسين علي شليل", "خالد بن سالم بن علي عبدالله العلوي", "مصطفى محمود كريم ابراهيم احمد", "معاذ احمد سميح علي سيد"],
+            '7/3': ["أحمد بن نائف بن عبدالله محمد جداد", "الطلح بن سالم بن حسن علي خوار", "بخيت بن مسلم سالم مبخوت الراشدي", "نور الدين محسن العلي", "معاذ فؤاد الحنيش الاحمد"]
+        };
 
-        let user="", path="", currentQ=0, activeQs=[], selectedVal=null, actIdx=0;
-
-        function toggleDrawer() { document.getElementById('sideDrawer').classList.toggle('open'); document.getElementById('overlay').style.display = document.getElementById('sideDrawer').classList.contains('open') ? 'block' : 'none'; }
-        
-        function updateStudents() { const cls = document.getElementById('sel_class').value; const sel = document.getElementById('sel_name'); sel.innerHTML = '<option value="" disabled selected>-- اختر اسمك --</option>'; studentsData[cls].forEach(n => { let o = document.createElement('option'); o.value=n; o.innerText=n; sel.appendChild(o); }); }
-        
-        function handleLogin() { 
-            user = document.getElementById('sel_name').value; if(!user) return; 
-            path = enrichmentList.includes(user) ? "إثرائي" : "علاجي"; 
-            document.getElementById('welcome_msg').innerText = `أهلاً بك يا بطل: ${user.split(' ')[0]}`;
-            document.getElementById('user_init').innerText = user[0];
-            document.getElementById('explain_text').innerHTML = explainData[path];
-            showScreen('screen_menu'); updateProgressUI(); renderGrid();
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById('nav-' + id).classList.add('active');
+            window.scrollTo(0,0);
         }
 
-        function updateProgressUI() {
-            const p = JSON.parse(localStorage.getItem('rt_'+user)) || [];
-            const per = (p.length / 10) * 100;
-            document.getElementById('overall_bar').style.width = per + '%';
-            document.getElementById('prog_per').innerText = per + '%';
-        }
-
-        function renderGrid() {
-            const grid = document.getElementById('main_grid'); grid.innerHTML = '';
-            const progress = JSON.parse(localStorage.getItem('rt_'+user)) || [];
-            for(let i=0; i<10; i++) {
-                const card = document.createElement('div');
-                const isUnlocked = i===0 || progress.includes(i-1);
-                card.className = `activity-card ${progress.includes(i)?'completed':isUnlocked?'unlocked':'locked'}`;
-                card.innerText = `نشاط ${i+1}`;
-                card.onclick = () => isUnlocked ? startQuiz(i) : null;
-                grid.appendChild(card);
-            }
-        }
-
-        function startQuiz(idx) { actIdx = idx; currentQ = 0; activeQs = path==="إثرائي" ? enrichmentQs : remedialQs; showScreen('screen_quiz'); renderQ(); }
-        
-        function renderQ() {
-            selectedVal = null; document.getElementById('next_btn').style.display='none';
-            const q = activeQs[currentQ];
-            const content = document.getElementById('quiz_content');
-            content.innerHTML = `<div style="background:#f0f4f8; padding:15px; border-radius:12px; margin-bottom:15px; font-weight:bold; text-align:right;">${currentQ+1}. ${q.q}</div>`;
-            q.a.forEach((opt, idx) => {
-                const item = document.createElement('div'); item.className='option-item';
-                item.innerHTML = `<input type="radio" name="opt" id="o${idx}"><label style="flex:1; cursor:pointer;" for="o${idx}">${opt}</label>`;
-                item.onclick = () => { document.getElementById(`o${idx}`).checked = true; selectedVal = idx; document.getElementById('next_btn').style.display = 'block'; };
-                content.appendChild(item);
+        function loadStudents(cls) {
+            document.getElementById('class-view').style.display = 'none';
+            document.getElementById('student-view').style.display = 'block';
+            document.getElementById('class-title').innerText = 'طلاب الصف السابع / ' + cls.split('/')[1];
+            const grid = document.getElementById('students-grid');
+            grid.innerHTML = '';
+            studentsData[cls].forEach(name => {
+                grid.innerHTML += `<div class="card" onclick="loadActivities('${name}')">${name}</div>`;
             });
-            document.getElementById('p_bar').style.width = `${(currentQ / activeQs.length) * 100}%`;
         }
 
-        function nextQuestion() {
-            currentQ++;
-            if(currentQ < activeQs.length) renderQ();
-            else {
-                let p = JSON.parse(localStorage.getItem('rt_'+user)) || [];
-                if(!p.includes(actIdx)) p.push(actIdx);
-                localStorage.setItem('rt_'+user, JSON.stringify(p));
-                updateProgressUI(); showScreen('screen_activities'); renderGrid();
+        function loadActivities(name) {
+            document.getElementById('student-view').style.display = 'none';
+            document.getElementById('activity-view').style.display = 'block';
+            document.getElementById('st-name').innerText = 'الطالب: ' + name;
+            const isEnrich = enrichmentStudents.includes(name);
+            document.getElementById('st-path').innerText = isEnrich ? 'المسار: الإثرائي ✨' : 'المسار: العلاجي 📋';
+            document.getElementById('st-path').style.color = isEnrich ? 'var(--purple)' : 'var(--primary)';
+
+            const list = document.getElementById('activities-list');
+            list.innerHTML = '';
+            
+            for(let i=1; i<=10; i++) {
+                const title = i === 1 ? (isEnrich ? "1. المبتدأ والخبر" : "1. أقسام الكلمة") : `${i}. نشاط لغوي ${i}`;
+                list.innerHTML += `
+                    <div class="activity-block ${i===1?'active-path':''}">
+                        <div class="activity-header" onclick="toggleContent(${i}, ${isEnrich})">
+                            <span>📌 ${title}</span>
+                            <span>${i === 1 ? '▼' : '🔒'}</span>
+                        </div>
+                        <div id="content-${i}" class="drop-content">
+                            <div class="btn-group">
+                                ${i === 1 ? `
+                                    <button class="btn-act btn-exp" onclick="alert('شرح المادة التعليمية...')"><i class="fas fa-book-open"></i> شرح</button>
+                                    <button class="btn-act btn-quiz" onclick="alert('بدء الاختبار التفاعلي...')"><i class="fas fa-edit"></i> اختبرني</button>
+                                ` : ''}
+                                <button class="btn-act btn-down" onclick="alert('جاري تحميل ملف النشاط رقم ${i}...')"><i class="fas fa-download"></i> تحميل النشاط</button>
+                            </div>
+                            <div id="action-zone-${i}">
+                                ${i > 1 ? '<p class="coming-soon">سيكون النشاط متاحاً قريباً إن شاء الله</p>' : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
         }
 
-        function showChallenge() {
-            const p = JSON.parse(localStorage.getItem('rt_'+user)) || [];
-            if(p.length < 5) alert("عذراً يا بطل! يجب أن تنهي 5 أنشطة على الأقل لفتح بنك التحدي.");
-            else alert("تحدي اليوم: استخرج المفعول المطلق من جملة 'ورتل القرآن ترتيلاً' وبين نوعه.");
+        function toggleContent(id, isEnrich) {
+            const content = document.getElementById('content-' + id);
+            const isOpen = content.style.display === 'block';
+            document.querySelectorAll('.drop-content').forEach(c => c.style.display = 'none');
+            if(!isOpen) content.style.display = 'block';
         }
 
-        function showScreen(id) { document.querySelectorAll('.container').forEach(c=>c.style.display='none'); document.getElementById(id).style.display='block'; }
+        function goBack(to) {
+            if(to === 'class') {
+                document.getElementById('student-view').style.display = 'none';
+                document.getElementById('class-view').style.display = 'block';
+            } else {
+                document.getElementById('activity-view').style.display = 'none';
+                document.getElementById('student-view').style.display = 'block';
+            }
+        }
     </script>
 </body>
 </html>
