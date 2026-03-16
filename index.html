@@ -25,29 +25,25 @@
         .card:hover { border-color: var(--primary); transform: translateY(-5px); }
 
         .activity-block { background: var(--card-bg); margin-bottom: 12px; border-radius: 12px; border-right: 6px solid #475569; overflow: hidden; }
-        .activity-block.active-path { border-right-color: var(--primary); }
+        .active-path { border-right-color: var(--primary) !important; }
         .activity-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .drop-content { display: none; padding: 20px; background: #0f172a; border-top: 1px solid #334155; }
         
         .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
         .btn-act { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.2s; color: white; flex: 1; min-width: 120px; justify-content: center; }
-        .btn-exp { background: #0369a1; }
-        .btn-quiz { background: #166534; }
-        .btn-down { background: #475569; }
-        .btn-watch { background: #854d0e; }
+        .btn-exp { background: #0369a1; } .btn-watch { background: #854d0e; } .btn-quiz { background: #166534; } .btn-down { background: #475569; }
 
-        .quiz-container { background: #1e293b; padding: 20px; border-radius: 10px; margin-top: 15px; }
-        .option { background: #334155; padding: 12px; border-radius: 8px; margin: 8px 0; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
-        .option:hover { background: #475569; }
-        .correct { background: var(--success) !important; color: white; }
-        .wrong { background: var(--danger) !important; color: white; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; margin-top: 10px; border: 2px solid var(--primary); }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .video-title-tag { background: var(--primary); color: white; padding: 5px 15px; border-radius: 5px 5px 0 0; display: inline-block; font-size: 0.9rem; margin-top: 10px; }
+        
+        .sub-btn-group { display: flex; gap: 8px; margin-top: 12px; justify-content: center; flex-wrap: wrap; }
+        .sub-btn { padding: 8px 15px; font-size: 0.85rem; background: #334155; border: 1px solid var(--primary); color: white; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .sub-btn:hover { background: var(--primary); }
+        .sub-btn.active-sub { background: var(--primary); box-shadow: 0 0 10px rgba(37, 99, 235, 0.5); }
 
         footer { margin-top: 50px; padding: 30px; background: #1e293b; border-top: 3px solid var(--primary); }
         .footer-content { display: flex; justify-content: space-between; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; gap: 30px; }
-        .back-btn { color: var(--primary); cursor: pointer; margin-bottom: 20px; display: inline-block; font-weight: bold; }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; margin-top: 10px; border: 2px solid var(--primary); }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .video-title-tag { background: var(--primary); color: white; padding: 5px 15px; border-radius: 5px 5px 0 0; display: inline-block; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -60,7 +56,6 @@
     <section id="home" class="page active">
         <div id="class-view">
             <div class="hero"><h1>مبادرة إتقان</h1><p>لتعزيز مهارات اللغة العربية | مدرسة يزيد بن الحارث</p></div>
-            <h2 style="text-align: center; margin-bottom: 20px;">اختر الصف الدراسي</h2>
             <div class="grid">
                 <div class="card" onclick="loadStudents('7/1')">الصف السابع / 1</div>
                 <div class="card" onclick="loadStudents('7/2')">الصف السابع / 2</div>
@@ -69,39 +64,32 @@
         </div>
 
         <div id="student-view" style="display: none;">
-            <div class="back-btn" onclick="goBack('class')">← العودة للفصول</div>
-            <h2 id="class-title" style="margin-bottom: 20px; color: var(--primary);"></h2>
+            <div onclick="goBack('class')" style="color:var(--primary); cursor:pointer; margin-bottom:15px; font-weight:bold;">← العودة للفصول</div>
+            <h2 id="class-title" style="margin-bottom: 20px;"></h2>
             <div id="students-grid" class="grid"></div>
         </div>
 
         <div id="activity-view" style="display: none;">
-            <div class="back-btn" onclick="goBack('student')">← العودة لقائمة الطلاب</div>
+            <div onclick="goBack('student')" style="color:var(--primary); cursor:pointer; margin-bottom:15px; font-weight:bold;">← العودة للطلاب</div>
             <h2 id="st-name" style="color: var(--primary);"></h2>
-            <p id="st-path" style="margin-bottom: 30px; font-weight: bold;"></p>
+            <p id="st-path" style="margin-bottom: 25px; font-weight: bold;"></p>
             <div id="activities-list"></div>
         </div>
     </section>
 
     <section id="about" class="page">
-        <div class="hero" style="background: linear-gradient(to right, #2563eb, #60a5fa);">
-            <h1>من نحن <i class="fas fa-star" style="color: #fbbf24;"></i></h1>
-            <p>مبادرة "إتقان" لرفع المستوى التحصيلي</p>
-        </div>
-        <div class="card" style="text-align: right; margin-bottom: 20px; border-right: 6px solid var(--purple);">
-            <h3>عن المبادرة</h3>
-            <p>مبادرة تعليمية متخصصة في مادة اللغة العربية بمدرسة يزيد بن الحارث (5-8).</p>
-        </div>
+        <div class="hero"><h1>من نحن</h1><p>مبادرة إتقان لرفع المستوى التحصيلي</p></div>
         <div class="card" style="text-align: right; border-right: 6px solid var(--primary);">
-            <h3 style="color: #60a5fa;">منفذ المبادرة</h3>
+            <h3>منفذ المبادرة</h3>
             <h4>الأستاذ علي محمد علي محمد</h4>
-            <p style="color: #94a3b8;">معلم لغة عربية - مدرسة يزيد بن الحارث</p>
+            <p style="color: #94a3b8;">معلم لغة عربية بمدرسة يزيد بن الحارث</p>
         </div>
     </section>
 
     <footer>
         <div class="footer-content">
-            <div style="text-align: right;"><p style="color: #94a3b8;">تصميم ومنفذ المبادرة</p><h3 style="color: #60a5fa;">الأستاذ علي محمد علي محمد</h3></div>
-            <div style="text-align: left;"><p style="color: #94a3b8;">تحت إشراف مدير المدرسة</p><h3 style="color: #60a5fa;">الأستاذ هشام الكحالي</h3></div>
+            <div style="text-align: right;"><p>منفذ المبادرة</p><h3>الأستاذ علي محمد علي محمد</h3></div>
+            <div style="text-align: left;"><p>إشراف المدير</p><h3>الأستاذ هشام الكحالي</h3></div>
         </div>
     </footer>
 
@@ -113,30 +101,25 @@
             '7/3': ["نور الدين محسن العلي", "معاذ فؤاد الحنيش الاحمد"]
         };
 
-        const quizData = {
-            remedial: [
-                { q: "ما هي الحركة التي توضع فوق الحرف ليفتح الفم عند النطق؟", a: ["الضمة", "الكسرة", "الفتحة"], c: 2 },
-                { q: "الكلمة التي تحتوي على حرف مضموم هي:", a: ["دَرَسَ", "كُتِبَ", "شَرِبَ"], c: 1 }
-            ],
-            enrichment: [
-                { q: "المبتدأ في جملة 'العلمُ نورٌ' هو:", a: ["نورٌ", "العلمُ", "مستتر"], c: 1 },
-                { q: "علامة رفع المبتدأ المفرد هي:", a: ["الفتحة", "الكسرة", "الضمة"], c: 2 }
-            ]
+        const videos = {
+            remedial_1: "https://www.youtube.com/embed/jaqgn0xO7PE?si=ID9ljyGHGJNL0zoD",
+            remedial_2: "https://www.youtube.com/embed/c_JnoiE4PvA?si=iAzXP31zb7BLXpIl",
+            remedial_3: "https://www.youtube.com/embed/HPCfeyZEIW8?si=zWZfUSXcclLLrLDv",
+            remedial_4_fatha: "https://www.youtube.com/embed/h0jr3Z1GnH4?si=24YYG9cp_Ro2xvaL",
+            remedial_4_kasra: "https://www.youtube.com/embed/BZ-Bm52cpPM?si=xWTj54VPuU8otHhv",
+            remedial_4_damma: "https://www.youtube.com/embed/dkO_62K6hMc?si=dhkoel3kmaX6qeuI",
+            remedial_5: "https://www.youtube.com/embed/7ZFQAseKp_E?si=mnX6czJ6E5JxxMuk"
         };
-
-        let currentQIndex = 0;
 
         function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-            document.getElementById('nav-' + id).classList.add('active');
         }
 
         function loadStudents(cls) {
             document.getElementById('class-view').style.display = 'none';
             document.getElementById('student-view').style.display = 'block';
-            document.getElementById('class-title').innerText = 'طلاب الصف السابع / ' + cls.split('/')[1];
+            document.getElementById('class-title').innerText = 'الصف السابع / ' + cls.split('/')[1];
             const grid = document.getElementById('students-grid'); grid.innerHTML = '';
             studentsData[cls].forEach(name => grid.innerHTML += `<div class="card" onclick="loadActivities('${name}')">${name}</div>`);
         }
@@ -147,25 +130,28 @@
             document.getElementById('st-name').innerText = 'الطالب: ' + name;
             const isEnrich = enrichmentStudents.includes(name);
             document.getElementById('st-path').innerText = isEnrich ? 'المسار: الإثرائي ✨' : 'المسار: العلاجي 📋';
+            
             const list = document.getElementById('activities-list'); list.innerHTML = '';
+            const topics = isEnrich ? ["المبتدأ والخبر", "كان وأخواتها", "إن وأخواتها", "الجملة الاسمية"] : ["الحركات القصيرة", "المدود", "السكون", "الشدَّة", "التنوين"];
             
             for(let i=1; i<=10; i++) {
-                const title = i === 1 ? (isEnrich ? "1. المبتدأ والخبر" : "1. الحركات القصيرة") : `${i}. نشاط لغوي ${i}`;
+                const isOpened = i <= 5; 
+                const topicTitle = topics[i-1] || `نشاط لغوي ${i}`;
                 list.innerHTML += `
-                    <div class="activity-block ${i===1?'active-path':''}">
+                    <div class="activity-block ${isOpened?'active-path':''}">
                         <div class="activity-header" onclick="toggleContent(${i})">
-                            <span>📌 ${title} ${i>1?'🔒':''}</span><span>▼</span>
+                            <span>📌 ${i}. ${topicTitle} ${!isOpened?'🔒':''}</span><span>▼</span>
                         </div>
                         <div id="content-${i}" class="drop-content">
-                            ${i === 1 ? `
+                            ${isOpened ? `
                                 <div class="btn-group">
-                                    <button class="btn-act btn-exp" onclick="showExplain(${isEnrich})"><i class="fas fa-book-open"></i> شرح</button>
-                                    <button class="btn-act btn-watch" onclick="showWatch(${isEnrich})"><i class="fas fa-play"></i> شاهد</button>
-                                    <button class="btn-act btn-quiz" onclick="startQuiz(${isEnrich})"><i class="fas fa-edit"></i> اختبرني</button>
-                                    <button class="btn-act btn-down" onclick="alert('تحميل ملف PDF...')"><i class="fas fa-download"></i> تحميل</button>
+                                    <button class="btn-act btn-exp" onclick="showContent('exp', ${i}, ${isEnrich})">📖 شرح</button>
+                                    <button class="btn-act btn-watch" onclick="showContent('watch', ${i}, ${isEnrich})">📺 شاهد</button>
+                                    <button class="btn-act btn-quiz" onclick="alert('الاختبار متاح قريباً')">📝 اختبرني</button>
+                                    <button class="btn-act btn-down" onclick="alert('تحميل ملف النشاط...')">📥 تحميل</button>
                                 </div>
-                                <div id="action-zone"></div>
-                            ` : `<p style="color:#94a3b8; text-align:center; padding:10px;">سيكون النشاط متاحاً قريباً إن شاء الله</p>`}
+                                <div id="action-zone-${i}"></div>
+                            ` : `<p style="text-align:center; color:#94a3b8;">سيتم فتح هذا النشاط قريباً إن شاء الله</p>`}
                         </div>
                     </div>
                 `;
@@ -179,44 +165,47 @@
             el.style.display = isOpen ? 'none' : 'block';
         }
 
-        function showExplain(isEnrich) {
-            const zone = document.getElementById('action-zone');
-            zone.innerHTML = `<div class="quiz-container">${isEnrich ? '<h4>شرح المبتدأ والخبر:</h4><p>المبتدأ هو اسم مرفوع نبدأ به الجملة.</p>' : '<h4>شرح الحركات القصيرة:</h4><p>الفتحة، الضمة، والكسرة هي أساس نطق الكلمات بشكل صحيح.</p>'}</div>`;
-        }
-
-        function showWatch(isEnrich) {
-            const zone = document.getElementById('action-zone');
-            if(!isEnrich) {
-                zone.innerHTML = `
-                    <div class="video-title-tag">نشاط علاجي 1</div>
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/e1_YA0yBbTE?si=ogncSFQTS-arRFf3" title="نشاط علاجي 1" frameborder="0" allowfullscreen></iframe>
-                    </div>`;
-            } else {
-                zone.innerHTML = `<div class="quiz-container"><p>سيتم توفير فيديو إثرائي قريباً للمبتدأ والخبر.</p></div>`;
+        function showContent(type, id, isEnrich) {
+            const zone = document.getElementById('action-zone-' + id);
+            if(type === 'exp') {
+                const text = isEnrich ? "شرح المسار الإثرائي..." : 
+                    (id===1?"شرح الحركات.":id===2?"شرح المدود.":id===3?"شرح السكون.":id===4?"الشدة هي حرفان الأول ساكن والثاني متحرك.": "شرح التنوين.");
+                zone.innerHTML = `<div style="background:#1e293b; padding:15px; border-radius:10px; margin-top:10px;">${text}</div>`;
+            } else if(type === 'watch') {
+                if(!isEnrich) {
+                    if(id === 4) {
+                        zone.innerHTML = `
+                            <p style="margin-top:10px; font-size:0.9rem;">اختر نوع الشدة للمشاهدة:</p>
+                            <div class="sub-btn-group">
+                                <button class="sub-btn active-sub" id="btn-fatha" onclick="updateVideo(4, 'fatha')">الشدة مع الفتحة</button>
+                                <button class="sub-btn" id="btn-kasra" onclick="updateVideo(4, 'kasra')">الشدة مع الكسرة</button>
+                                <button class="sub-btn" id="btn-damma" onclick="updateVideo(4, 'damma')">الشدة مع الضمة</button>
+                            </div>
+                            <div id="video-player-4">
+                                <div class="video-title-tag">نشاط علاجي 4: الشدة مع الفتحة</div>
+                                <div class="video-wrapper"><iframe src="${videos.remedial_4_fatha}" frameborder="0" allowfullscreen></iframe></div>
+                            </div>`;
+                    } else if(videos[`remedial_${id}`]) {
+                        zone.innerHTML = `<div class="video-title-tag">نشاط علاجي ${id}</div><div class="video-wrapper"><iframe src="${videos[`remedial_${id}`]}" frameborder="0" allowfullscreen></iframe></div>`;
+                    }
+                }
             }
         }
 
-        function startQuiz(isEnrich) {
-            currentQIndex = 0; renderQuestion(isEnrich);
-        }
-
-        function renderQuestion(isEnrich) {
-            const zone = document.getElementById('action-zone');
-            const data = isEnrich ? quizData.enrichment : quizData.remedial;
-            const q = data[currentQIndex];
-            zone.innerHTML = `<div class="quiz-container"><h4>${q.q}</h4>${q.a.map((opt, i) => `<div class="option" onclick="checkAns(this, ${i}, ${q.c}, ${isEnrich})">${opt}</div>`).join('')}</div>`;
-        }
-
-        function checkAns(el, idx, correct, isEnrich) {
-            if(idx === correct) {
-                el.classList.add('correct');
-                setTimeout(() => {
-                    currentQIndex++;
-                    if(currentQIndex < 2) renderQuestion(isEnrich);
-                    else document.getElementById('action-zone').innerHTML = '<div class="quiz-container"><h4 style="color:var(--success)">أحسنت!</h4></div>';
-                }, 800);
-            } else el.classList.add('wrong');
+        function updateVideo(id, type) {
+            const playerZone = document.getElementById('video-player-' + id);
+            document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active-sub'));
+            
+            if(type === 'fatha') {
+                document.getElementById('btn-fatha').classList.add('active-sub');
+                playerZone.innerHTML = `<div class="video-title-tag">نشاط علاجي 4: الشدة مع الفتحة</div><div class="video-wrapper"><iframe src="${videos.remedial_4_fatha}" frameborder="0" allowfullscreen></iframe></div>`;
+            } else if(type === 'kasra') {
+                document.getElementById('btn-kasra').classList.add('active-sub');
+                playerZone.innerHTML = `<div class="video-title-tag">نشاط علاجي 4: الشدة مع الكسرة</div><div class="video-wrapper"><iframe src="${videos.remedial_4_kasra}" frameborder="0" allowfullscreen></iframe></div>`;
+            } else if(type === 'damma') {
+                document.getElementById('btn-damma').classList.add('active-sub');
+                playerZone.innerHTML = `<div class="video-title-tag">نشاط علاجي 4: الشدة مع الضمة</div><div class="video-wrapper"><iframe src="${videos.remedial_4_damma}" frameborder="0" allowfullscreen></iframe></div>`;
+            }
         }
 
         function goBack(to) {
