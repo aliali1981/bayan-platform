@@ -21,7 +21,6 @@
 
         .hero { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #1e40af, #7c3aed); border-radius: 20px; margin-bottom: 40px; }
         
-        /* Progress Bar */
         .progress-container { width: 100%; background: #334155; height: 12px; border-radius: 10px; margin: 20px 0; overflow: hidden; display: none; }
         .progress-bar { height: 100%; background: linear-gradient(90deg, var(--success), var(--primary)); width: 0%; transition: 0.5s; }
 
@@ -40,7 +39,7 @@
         .btn-act { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.2s; color: white; flex: 1; min-width: 120px; justify-content: center; }
         .btn-exp { background: #0369a1; } .btn-watch { background: #854d0e; } .btn-quiz { background: #166534; }
 
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; border: 2px solid var(--primary); }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; border: 2px solid var(--primary); margin-top: 10px; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         
         .quiz-container { background: #1e293b; padding: 20px; border-radius: 10px; margin-top: 15px; border: 1px solid var(--primary); }
@@ -48,10 +47,8 @@
         .options { display: grid; gap: 10px; }
         .option-btn { background: #334155; border: 1px solid #475569; color: white; padding: 12px; border-radius: 5px; cursor: pointer; text-align: right; }
         
-        /* Review Table */
         .review-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
         .review-table th, .review-table td { border: 1px solid #334155; padding: 8px; text-align: right; }
-        .review-table th { background: #0f172a; }
 
         footer { margin-top: 50px; padding: 30px; background: #1e293b; border-top: 3px solid var(--primary); text-align: center; }
     </style>
@@ -105,6 +102,17 @@
         const enrichmentStudents = ["عمر احمد محمد احمد", "عمر عبدالقوى ابراهيم ابراهيم", "يوسف عمر احمد عبد الرحمن حاكم", "مصطفى محمود كريم ابراهيم احمد"];
         const studentsData = {'7/1':["احمد امجد احمد أحمد نجاد", "أحمد بن سعيد بن صالح أحمد جداد", "عمر احمد محمد احمد", "عمر عبدالقوى ابراهيم ابراهيم", "يوسف عمر احمد عبد الرحمن حاكم"], '7/2':["ابراهيم محمد سالم السطري", "مصطفى محمود كريم ابراهيم احمد"], '7/3':["نور الدين محسن العلي", "معاذ فؤاد الحنيش الاحمد"]};
 
+        // روابط الفيديوهات المستعادة
+        const videoLinks = {
+            remedial_1: "https://www.youtube.com/embed/jaqgn0xO7PE", // الحركات
+            remedial_2: "https://www.youtube.com/embed/c_JnoiE4PvA", // المدود
+            remedial_3: "https://www.youtube.com/embed/HPCfeyZEIW8", // السكون
+            remedial_4_fatha: "https://www.youtube.com/embed/h0jr3Z1GnH4", // شدة فتحة
+            remedial_4_kasra: "https://www.youtube.com/embed/BZ-Bm52cpPM", // شدة كسرة
+            remedial_4_damma: "https://www.youtube.com/embed/dkO_62K6hMc", // شدة ضمة
+            remedial_5: "https://www.youtube.com/embed/7ZFQAseKp_E"  // التنوين
+        };
+
         const quizzes = {
             remedial_1: [ { q: "ما الحركة التي توضع فوق الحرف لفتحه؟", a: ["الفتحة", "الضمة", "الكسرة"], c: 0 }, { q: "الكسرة توضع _____ الحرف.", a: ["فوق", "تحت", "بجانب"], c: 1 }, { q: "كلمة (كُتُب) جميع حروفها مضمومة.", a: ["صح", "خطأ"], c: 0 }, { q: "ما هي حركة حرف الميم في كلمة (مَدرسة)؟", a: ["فتحة", "ضمة", "كسرة"], c: 0 }, { q: "ما الحركة التي تناسب النطق بضم الشفتين؟", a: ["الفتحة", "الضمة", "الكسرة"], c: 1 }, { q: "أي كلمة تبدأ بحرف مكسور؟", a: ["جَمَل", "قِط", "بُرج"], c: 1 }, { q: "الحركات القصيرة هي الفتحة والضمة والكسرة.", a: ["صح", "خطأ"], c: 0 }, { q: "صوت الفتحة أطول من صوت المد بالألف.", a: ["صح", "خطأ"], c: 1 }, { q: "الحركة في كلمة (لُؤلؤ) هي:", a: ["الفتحة", "الضمة", "الكسرة"], c: 1 }, { q: "أي حركة تجعل الفم ينخفض للأسفل؟", a: ["الفتحة", "الضمة", "الكسرة"], c: 2 } ],
             remedial_2: [ { q: "كم عدد حروف المد؟", a: ["2", "3", "4"], c: 1 }, { q: "المد بالألف يسبقه حرف عليه _____.", a: ["فتحة", "ضمة", "كسرة"], c: 0 }, { q: "كلمة (عصفور) فيها مد بـ:", a: ["الألف", "الواو", "الياء"], c: 1 }, { q: "الياء تكون حرف مد إذا كان ما قبلها _____.", a: ["مفتوحاً", "مضموماً", "مكسوراً"], c: 2 }, { q: "أي كلمة بها مد بالألف؟", a: ["أكل", "كتاب", "رأى"], c: 1 }, { q: "حرف المد لا توضع عليه حركة.", a: ["صح", "خطأ"], c: 0 }, { q: "كلمة (سعيد) بها مد بـ:", a: ["الألف", "الواو", "الياء"], c: 2 }, { q: "الواو في كلمة (وَلَد) حرف مد.", a: ["صح", "خطأ"], c: 1 }, { q: "المد هو إطالة صوت الحرف.", a: ["صح", "خطأ"], c: 0 }, { q: "ما هو الحرف الممدود في كلمة (باب)؟", a: ["ب", "ا"], c: 0 } ],
@@ -114,7 +122,7 @@
         };
 
         let currentStudent = "";
-        let studentResponses = []; // لتخزين إجابات الطالب للمراجعة
+        let studentResponses = [];
 
         function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -135,16 +143,13 @@
             document.getElementById('activity-view').style.display = 'block';
             document.getElementById('st-name').innerText = 'الطالب: ' + name;
             
-            // استرجاع التقدم المحفوظ من الجهاز
             let progress = localStorage.getItem('itqan_'+name) || 1;
             progress = parseInt(progress);
-
             const isEnrich = enrichmentStudents.includes(name);
             document.getElementById('st-path').innerText = isEnrich ? 'المسار: الإثرائي ✨' : 'المسار: العلاجي 📋';
             
-            // تحديث شريط التقدم
             document.getElementById('p-cont').style.display = 'block';
-            document.getElementById('p-bar').style.width = ((progress-1) * 20) + '%';
+            document.getElementById('p-bar').style.width = Math.min(((progress-1) * 20), 100) + '%';
 
             const list = document.getElementById('activities-list'); list.innerHTML = '';
             const topics = isEnrich ? ["المبتدأ والخبر", "كان وأخواتها", "إن وأخواتها", "الجملة الاسمية"] : ["الحركات القصيرة", "المدود", "السكون", "الشدَّة", "التنوين"];
@@ -152,15 +157,17 @@
             for(let i=1; i<=10; i++) {
                 const isUnlocked = i <= progress;
                 const isDone = i < progress;
+                const title = topics[i-1] || `مرحلة ${i}`;
                 list.innerHTML += `
                     <div class="activity-block ${isUnlocked ? 'active-path' : 'locked'}">
                         <div class="activity-header" onclick="toggleContent(${i})">
-                            <span>${isDone ? '✅' : (isUnlocked ? '🔓' : '🔒')} ${i}. ${topics[i-1] || 'نشاط إضافي'}</span>
-                            <span>${isUnlocked ? '▼' : ''}</span>
+                            <span>${isDone ? '✅' : (isUnlocked ? '🔓' : '🔒')} ${i}. ${title}</span>
+                            <span>▼</span>
                         </div>
                         <div id="content-${i}" class="drop-content">
                             <div class="btn-group">
-                                <button class="btn-act btn-exp" onclick="showContent('exp', ${i})">📖 شرح</button>
+                                <button class="btn-act btn-exp" onclick="showContent('exp', ${i}, ${isEnrich})">📖 شرح</button>
+                                <button class="btn-act btn-watch" onclick="showContent('watch', ${i}, ${isEnrich})">📺 شاهد</button>
                                 <button class="btn-act btn-quiz" onclick="startQuiz(${i})">📝 ${isDone ? 'تم الإنجاز' : 'اختبرني'}</button>
                             </div>
                             <div id="action-zone-${i}"></div>
@@ -172,45 +179,57 @@
 
         function toggleContent(id) {
             const el = document.getElementById('content-' + id);
-            if (!el) return;
             const isOpen = el.style.display === 'block';
             document.querySelectorAll('.drop-content').forEach(c => c.style.display = 'none');
             el.style.display = isOpen ? 'none' : 'block';
         }
 
-        function showContent(type, id) {
+        function showContent(type, id, isEnrich) {
             const zone = document.getElementById('action-zone-' + id);
-            zone.innerHTML = `<div style="background:#1e293b; padding:15px; border-radius:10px; margin-top:10px;">شرح تعليمي مبسط لهذا النشاط...</div>`;
+            if(type === 'exp') {
+                zone.innerHTML = `<div style="background:#1e293b; padding:15px; border-radius:10px; margin-top:10px; border-right:4px solid var(--primary);">يرجى مراجعة القواعد الخاصة بـالنشاط قبل البدء في الاختبار.</div>`;
+            } else if(type === 'watch') {
+                if(isEnrich) {
+                    zone.innerHTML = `<p style="padding:10px;">فيديوهات المسار الإثرائي قيد التجهيز...</p>`;
+                } else {
+                    if(id === 4) { // حالة خاصة للشدة
+                        zone.innerHTML = `
+                            <p style="margin:10px 0 5px;">اختر نوع الشدة:</p>
+                            <div style="display:flex; gap:5px; margin-bottom:10px;">
+                                <button onclick="updateVid(${id}, 'fatha')" class="btn-act" style="font-size:0.7rem; background:#334155;">فتحة</button>
+                                <button onclick="updateVid(${id}, 'kasra')" class="btn-act" style="font-size:0.7rem; background:#334155;">كسرة</button>
+                                <button onclick="updateVid(${id}, 'damma')" class="btn-act" style="font-size:0.7rem; background:#334155;">ضمة</button>
+                            </div>
+                            <div id="vid-player-${id}" class="video-wrapper"><iframe src="${videoLinks.remedial_4_fatha}" frameborder="0" allowfullscreen></iframe></div>`;
+                    } else if(videoLinks['remedial_'+id]) {
+                        zone.innerHTML = `<div class="video-wrapper"><iframe src="${videoLinks['remedial_'+id]}" frameborder="0" allowfullscreen></iframe></div>`;
+                    } else {
+                        zone.innerHTML = `<p style="padding:10px;">لا يوجد فيديو حالياً.</p>`;
+                    }
+                }
+            }
         }
 
-        let currentQuizData = [];
-        let score = 0;
+        function updateVid(id, type) {
+            document.getElementById(`vid-player-${id}`).innerHTML = `<iframe src="${videoLinks['remedial_4_'+type]}" frameborder="0" allowfullscreen></iframe>`;
+        }
 
         function startQuiz(id) {
-            const quizID = `done_${currentStudent}_${id}`;
-            if(localStorage.getItem(quizID)) {
-                document.getElementById('action-zone-'+id).innerHTML = `<p style="text-align:center; color:var(--success); margin-top:10px;">أتممت هذا الاختبار مسبقاً بنجاح.</p>`;
-                return;
-            }
             currentQuizData = quizzes[`remedial_${id}`] || [];
-            score = 0;
-            studentResponses = [];
+            score = 0; studentResponses = [];
             renderQuestion(0, id);
         }
 
         function renderQuestion(index, actId) {
             const q = currentQuizData[index];
-            let optionsHtml = '';
-            q.a.forEach((opt, i) => {
-                optionsHtml += `<button class="option-btn" onclick="nextStep(${index}, ${i}, ${actId})">${opt}</button>`;
-            });
+            let opts = '';
+            q.a.forEach((opt, i) => opts += `<button class="option-btn" onclick="nextStep(${index}, ${i}, ${actId})">${opt}</button>`);
             document.getElementById('action-zone-' + actId).innerHTML = `
                 <div class="quiz-container">
-                    <p style="font-size:0.8rem; color:#94a3b8;">سؤال ${index+1}/10</p>
+                    <p style="font-size:0.8rem; color:#94a3b8;">السؤال ${index+1}/10</p>
                     <div class="question">${q.q}</div>
-                    <div class="options">${optionsHtml}</div>
-                </div>
-            `;
+                    <div class="options">${opts}</div>
+                </div>`;
         }
 
         function nextStep(qIdx, selected, actId) {
@@ -218,21 +237,16 @@
             const correct = currentQuizData[qIdx].c;
             studentResponses.push({q: currentQuizData[qIdx].q, user: currentQuizData[qIdx].a[selected], correct: currentQuizData[qIdx].a[correct], isOk: selected===correct});
             if(selected === correct) score++;
-            
             if(qIdx + 1 < currentQuizData.length) renderQuestion(qIdx + 1, actId);
             else finishQuiz(actId);
         }
 
         function finishQuiz(actId) {
             document.getElementById('snd-success').play();
-            localStorage.setItem(`done_${currentStudent}_${actId}`, true);
-            
-            // تحديث التقدم العام
             let currentProg = parseInt(localStorage.getItem('itqan_'+currentStudent) || 1);
             if(currentProg === actId) localStorage.setItem('itqan_'+currentStudent, actId + 1);
 
             let stars = score === 10 ? '🏆 🏆 🏆' : (score >= 7 ? '⭐ ⭐ ⭐' : '⭐ ⭐');
-            
             document.getElementById('action-zone-' + actId).innerHTML = `
                 <div class="quiz-container" style="text-align:center;">
                     <div style="font-size:2rem;">${stars}</div>
@@ -240,25 +254,18 @@
                     <p style="font-size:1.5rem; margin:10px 0;">درجتك: ${score} من 10</p>
                     <button class="btn-act btn-exp" onclick="showReview(${actId})">👁️ مراجعة أخطائي</button>
                     <button class="btn-act btn-quiz" style="margin-top:10px;" onclick="loadActivities('${currentStudent}')">فتح النشاط التالي</button>
-                </div>
-            `;
+                </div>`;
         }
 
         function showReview(actId) {
             let rows = '';
-            studentResponses.forEach(r => {
-                rows += `<tr style="color:${r.isOk? 'var(--success)':'var(--danger)'}"><td>${r.q}</td><td>${r.user}</td><td>${r.correct}</td></tr>`;
-            });
+            studentResponses.forEach(r => rows += `<tr style="color:${r.isOk? 'var(--success)':'var(--danger)'}"><td>${r.q}</td><td>${r.user}</td><td>${r.correct}</td></tr>`);
             document.getElementById('action-zone-' + actId).innerHTML = `
                 <div class="quiz-container">
                     <h4>مراجعة الإجابات:</h4>
-                    <table class="review-table">
-                        <thead><tr><th>السؤال</th><th>إجابتك</th><th>الصحيحة</th></tr></thead>
-                        <tbody>${rows}</tbody>
-                    </table>
+                    <table class="review-table"><thead><tr><th>السؤال</th><th>إجابتك</th><th>الصحيحة</th></tr></thead><tbody>${rows}</tbody></table>
                     <button class="btn-act btn-exp" style="margin-top:15px; width:100%;" onclick="loadActivities('${currentStudent}')">إغلاق المراجعة</button>
-                </div>
-            `;
+                </div>`;
         }
 
         function goBack(to) {
