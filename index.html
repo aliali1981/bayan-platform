@@ -5,56 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>منصة ارتقاء التعليمية - مدرسة يزيد بن الحارث</title>
     <style>
-        :root { --primary: #1a2a6c; --gold: #b48c0b; --bg: #f4f7f9; --white: #ffffff; --success: #22c55e; --danger: #ef4444; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 90px; }
+        :root { --primary: #1a2a6c; --gold: #b48c0b; --bg: #f4f7f9; --white: #ffffff; --success: #22c55e; --danger: #ef4444; --light-gold: #fffcf0; --text: #333; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 90px; }
         
-        /* الهيدر والقائمة الجانبية */
+        /* الهيدر والقائمة */
         .header-bar { width: 100%; height: 60px; background: var(--primary); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-sizing: border-box; color: white; position: fixed; top: 0; z-index: 1000; }
         .drawer { position: fixed; top: 0; right: -280px; width: 280px; height: 100%; background: var(--primary); transition: 0.3s ease; z-index: 2000; color: white; padding-top: 20px; }
         .drawer.open { right: 0; }
-        .drawer-item { padding: 15px 25px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
-        .drawer-item:hover { background: rgba(255,255,255,0.1); }
+        .drawer-item { padding: 15px 25px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1500; }
 
-        /* الحاويات الرئيسية */
-        .container { width: 92%; max-width: 700px; background: var(--white); padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; margin-top: 80px; display: none; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .active { display: block; }
+        /* الحاويات */
+        .container { width: 92%; max-width: 800px; background: var(--white); padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-top: 80px; display: none; }
+        .active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* دائرة الشعار */
-        .rtiqa-logo-circle { width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%; background: #000; border: 4px solid var(--gold); display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .rtiqa-logo-circle { width: 100px; height: 100px; margin: 0 auto 20px; border-radius: 50%; background: #000; border: 4px solid var(--gold); display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .rtiqa-logo-circle img { width: 100%; height: auto; }
 
-        /* تصميم الشرح "الممل" والتفصيلي */
-        .lesson-section { text-align: right; background: #fff; border-right: 6px solid var(--gold); padding: 20px; margin-bottom: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-        .lesson-title { color: var(--primary); font-size: 1.4rem; font-weight: bold; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 15px; }
-        .lesson-subtitle { color: var(--gold); font-weight: bold; margin-top: 15px; }
-        .example-box { background: #fffcf0; border: 1px dashed var(--gold); padding: 12px; border-radius: 8px; margin: 10px 0; font-weight: 500; color: #444; }
-        .parsing-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #f8fafc; }
-        .parsing-table td { border: 1px solid #e2e8f0; padding: 10px; font-size: 0.95rem; }
-        .parsing-table tr td:first-child { font-weight: bold; color: var(--primary); width: 30%; }
+        /* --- تنسيق الشرح المفصل --- */
+        .explain-content { text-align: right; line-height: 1.8; }
+        .section-box { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 25px; }
+        .section-title { color: var(--primary); font-size: 1.4rem; border-right: 5px solid var(--gold); padding-right: 15px; margin-bottom: 15px; font-weight: bold; }
+        .sub-title { color: var(--gold); font-weight: bold; margin-top: 15px; display: block; font-size: 1.1rem; }
+        .example-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; margin: 10px 0; border-right: 4px solid var(--primary); }
+        .parsing-model { background: #fffcf0; padding: 12px; border-radius: 8px; font-style: italic; color: #444; border: 1px dashed var(--gold); }
+        .highlight { color: #d946ef; font-weight: bold; }
 
-        /* المؤقت الزمني */
-        #timer_display { font-size: 1.5rem; font-weight: bold; color: var(--primary); background: #eef2f6; padding: 10px 25px; border-radius: 50px; margin-bottom: 20px; display: inline-block; border: 2px solid var(--gold); }
-        .timer-warning { color: var(--danger) !important; animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0.5; } }
+        /* --- تنسيق الأسئلة المطور --- */
+        .q-progress-bar { width: 100%; height: 8px; background: #eee; border-radius: 4px; margin-bottom: 20px; overflow: hidden; }
+        .q-progress-inner { height: 100%; background: var(--gold); transition: 0.3s; width: 0%; }
+        .q-card { background: #fff; padding: 10px; }
+        .q-text { font-size: 1.3rem; color: var(--primary); font-weight: bold; margin-bottom: 20px; text-align: right; }
+        .option-card { display: flex; align-items: center; background: #fff; border: 2px solid #e2e8f0; border-radius: 15px; padding: 15px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; text-align: right; }
+        .option-card:hover { border-color: var(--gold); background: var(--light-gold); }
+        .option-card.selected { border-color: var(--primary); background: #eef2ff; box-shadow: 0 4px 12px rgba(26, 42, 108, 0.1); }
+        .custom-radio { width: 24px; height: 24px; border: 2px solid #cbd5e1; border-radius: 50%; margin-left: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .option-card.selected .custom-radio { border-color: var(--primary); background: var(--primary); }
+        .option-card.selected .custom-radio::after { content: ""; width: 10px; height: 10px; background: white; border-radius: 50%; }
 
-        .btn-main { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; transition: 0.3s; }
-        .btn-main:hover { opacity: 0.9; transform: scale(1.02); }
-        .fixed-footer { position: fixed; bottom: 0; width: 100%; background: var(--white); border-top: 2px solid var(--gold); display: flex; justify-content: space-between; padding: 10px 20px; box-sizing: border-box; z-index: 1000; font-size: 0.75rem; }
+        .btn-main { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
+        .btn-main:disabled { background: #ccc; }
+        .fixed-footer { position: fixed; bottom: 0; width: 100%; background: #fff; border-top: 2px solid var(--gold); display: flex; justify-content: space-between; padding: 10px 20px; font-size: 0.8rem; z-index: 1000; box-sizing: border-box;}
     </style>
 </head>
 <body>
 
     <!-- القائمة الجانبية -->
     <div id="sideDrawer" class="drawer">
-        <div class="drawer-item" onclick="goToHome()">🏠 الصفحة الرئيسية</div>
-        <div class="drawer-item" onclick="goToExplain()">📖 موسوعة الشرح</div>
-        <div class="drawer-item" onclick="location.reload()">🔄 تسجيل خروج</div>
+        <div class="drawer-item" onclick="goToHome()">🏠 الرئيسية</div>
+        <div class="drawer-item" onclick="goToExplain()">📖 الموسوعة الشاملة</div>
+        <div class="drawer-item" onclick="location.reload()">🔄 خروج</div>
     </div>
     <div id="overlay" class="overlay" onclick="toggleDrawer()"></div>
 
-    <!-- بار التنقل العلوي -->
+    <!-- بار التنقل -->
     <div class="header-bar">
         <button onclick="toggleDrawer()" style="background:none; border:none; color:var(--gold); font-size:24px; cursor:pointer;">☰</button>
         <div style="font-weight: bold;">منصة ارتقاء التعليمية</div>
@@ -62,174 +68,187 @@
     </div>
 
     <!-- 1. شاشة الدخول -->
-    <div id="screen_login" class="container active">
-        <div class="rtiqa-logo-circle">
-            <img src="https://raw.githubusercontent.com/aliali1981/bayan-platform/fba633b5ad65c9685dede092b3c03cfb1197c6b9/irtiqaa.png" alt="الشعار">
-        </div>
+    <div id="screen_login" class="container active" style="text-align: center;">
+        <div class="rtiqa-logo-circle"><img src="https://raw.githubusercontent.com/aliali1981/bayan-platform/fba633b5ad65c9685dede092b3c03cfb1197c6b9/irtiqaa.png"></div>
         <h3>مرحباً بك في منصة ارتقاء</h3>
-        <select id="sel_class" onchange="updateStudents()" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc;"><option value="" disabled selected>-- اختر الفصل --</option><option>7-1</option><option>7-2</option><option>7-3</option></select>
-        <select id="sel_name" style="width:100%; padding:12px; margin-bottom:20px; border-radius:8px; border:1px solid #ccc;"><option value="" disabled selected>-- اختر اسمك --</option></select>
+        <select id="sel_class" onchange="updateStudents()" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px;"><option value="" disabled selected>-- اختر الفصل --</option><option>7-1</option><option>7-2</option><option>7-3</option></select>
+        <select id="sel_name" style="width:100%; padding:12px; margin-bottom:20px; border-radius:8px;"><option value="" disabled selected>-- اختر اسمك --</option></select>
         <button class="btn-main" onclick="handleLogin()">دخول للتعلم 🚀</button>
     </div>
 
     <!-- 2. القائمة الرئيسية -->
-    <div id="screen_menu" class="container">
-        <div class="rtiqa-logo-circle" style="width: 80px; height: 80px;">
-            <img src="https://raw.githubusercontent.com/aliali1981/bayan-platform/fba633b5ad65c9685dede092b3c03cfb1197c6b9/irtiqaa.png" alt="الشعار">
-        </div>
-        <h4 id="welcome_msg" style="color:var(--primary); margin:0; font-size:1.3rem;"></h4>
-        <p id="path_desc" style="font-size:1rem; color:#666; margin-bottom:25px;"></p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <button class="btn-main" onclick="goToExplain()" style="background:#fff; color:var(--primary); border:2px solid var(--primary);">📖 شرح القواعد</button>
+    <div id="screen_menu" class="container" style="text-align: center;">
+        <h4 id="welcome_msg" style="color:var(--primary); font-size:1.4rem;"></h4>
+        <p style="color:#666;">اختر وجهتك التعليمية اليوم:</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top:20px;">
+            <button class="btn-main" onclick="goToExplain()" style="background:#fff; color:var(--primary); border:2px solid var(--primary);">📖 موسوعة الشرح</button>
             <button class="btn-main" onclick="showScreen('screen_activities')">✍️ ماراثون النحو</button>
         </div>
     </div>
 
-    <!-- 3. شاشة الشرح "الممل" والمفصل -->
+    <!-- 3. شاشة الشرح التفصيلي الممل -->
     <div id="screen_explain" class="container">
-        <h2 style="color:var(--primary); margin-bottom:25px;">الموسوعة النحوية الشاملة</h2>
-        <div id="explain_area" style="overflow-y:auto; max-height:500px; padding-left:10px;">
-            <!-- محتوى الشرح سيتم حقنه هنا -->
+        <h2 style="text-align:center; color:var(--primary); margin-bottom:30px;">الموسوعة النحوية الشاملة 📚</h2>
+        <div id="explain_area" class="explain-content" style="overflow-y:auto; max-height:600px; padding-left:10px;">
+            
+            <div class="section-box">
+                <div class="section-title">أولاً: أنواع الكلمة</div>
+                <p>الكلمة في اللغة العربية لا تخرج عن ثلاثة أنواع:</p>
+                <ul>
+                    <li><b>الاسم:</b> ما دل على معنى في نفسه ولم يقترن بزمن (مثل: رجل، بيت، شجرة). وعلاماته: قبول "الـ" التعريف، التنوين، وحروف الجر.</li>
+                    <li><b>الفعل:</b> ما دل على حدث مقترن بزمن (ماضٍ، مضارع، أمر).</li>
+                    <li><b>الحرف:</b> ما لا يظهر معناه إلا مع غيره (مثل: من، في، لم).</li>
+                </ul>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title">ثانياً: الجملة الاسمية ونواسخها</div>
+                <span class="sub-title">1. المبتدأ والخبر:</span>
+                <p>هما الركنان الأساسيان للجملة الاسمية، وحكمهما دائماً <b>الرفع</b>.</p>
+                <div class="example-card">مثال: <b>العلمُ نافعٌ</b></div>
+                <div class="parsing-model">
+                    <b>العلمُ:</b> مبتدأ مرفوع وعلامة رفعه الضمة الظاهرة.<br>
+                    <b>نافعٌ:</b> خبر مرفوع وعلامة رفعه الضمة الظاهرة.
+                </div>
+
+                <span class="sub-title">2. كان وأخواتها (الأفعال الناقصة):</span>
+                <p>تدخل على الجملة الاسمية فترفع المبتدأ ويسمى اسمها، وتنصب الخبر ويسمى خبرها.</p>
+                <div class="example-card">مثال: <b>كانَ الامتحانُ سهلاً</b></div>
+                <div class="parsing-model">
+                    <b>الامتحانُ:</b> اسم كان مرفوع بالضمة.<br>
+                    <b>سهلاً:</b> خبر كان منصوب وعلامة نصبه الفتحة.
+                </div>
+
+                <span class="sub-title">3. إن وأخواتها (الحروف الناسخة):</span>
+                <p>تدخل على الجملة الاسمية فتنصب المبتدأ ويسمى اسمها، وترفع الخبر ويسمى خبرها.</p>
+                <div class="example-card">مثال: <b>إنَّ الصدقَ منجاةٌ</b></div>
+                <div class="parsing-model">
+                    <b>الصدقَ:</b> اسم إن منصوب بالفتحة.<br>
+                    <b>منجاةٌ:</b> خبر إن مرفوع بالضمة.
+                </div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title">ثالثاً: الجملة الفعلية</div>
+                <p>تتكون من فعل وفاعل (وأحياناً مفعول به).</p>
+                <span class="sub-title">1. الفاعل:</span>
+                <p>هو من قام بالفعل، وحكمه دائماً <b>الرفع</b>.</p>
+                <div class="example-card">مثال: <b>جاءَ المعلمُ</b> (المعلم هو من قام بالمجيء).</div>
+
+                <span class="sub-title">2. المفعول به:</span>
+                <p>هو من وقع عليه فعل الفاعل، وحكمه دائماً <b>النصب</b>.</p>
+                <div class="example-card">مثال: <b>شربَ الطفلُ اللبنَ</b></div>
+                <div class="parsing-model">
+                    <b>اللبنَ:</b> مفعول به منصوب وعلامة نصبه الفتحة.
+                </div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title">رابعاً: إعراب الفعل المضارع</div>
+                <p>المضارع هو الفعل الوحيد الذي يكون معرباً (يرفع، ينصب، يجزم):</p>
+                <ul>
+                    <li><span class="highlight">الرفع:</span> إذا لم يسبقه ناصب ولا جازم (يكتبُ الطالبُ).</li>
+                    <li><span class="highlight">النصب:</span> إذا سبقته أدوات النصب (أن، لن، كي، حتى). مثال: <b>لن يهمِلَ</b> المجتهدُ.</li>
+                    <li><span class="highlight">الجزم:</span> إذا سبقته أدوات الجزم (لم، لا الناهية، لام الأمر). مثال: <b>لم يتأخرْ</b> أحدٌ.</li>
+                </ul>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title">خامساً: علامات الإعراب الفرعية (الجموع والمثنى)</div>
+                <p>ليست كل الكلمات ترفع بالضمة وتنصب بالفتحة، هناك حالات خاصة:</p>
+                <span class="sub-title">1. المثنى:</span>
+                <p>يرفع <b>بالألف</b>، وينصب ويجر <b>بالياء</b>. (مثال: وصل المسافرانِ / رأيت المسافرينِ).</p>
+                
+                <span class="sub-title">2. جمع المذكر السالم:</span>
+                <p>يرفع <b>بالواو</b>، وينصب ويجر <b>بالياء</b>. (مثال: المهندسون بارعون / كافأتُ المهندسينَ).</p>
+
+                <span class="sub-title">3. جمع المؤنث السالم:</span>
+                <p>يرفع بالضمة، ولكن انتبه! <b>ينصب بالكسرة نيابة عن الفتحة</b>. (مثال: شكرتُ المعلماتِ).</p>
+            </div>
+
         </div>
-        <button class="btn-main" style="margin-top:20px; background:#64748b;" onclick="showScreen('screen_menu')">فهمت القواعد جيداً، عودة</button>
+        <button class="btn-main" style="margin-top:20px; background:#64748b;" onclick="showScreen('screen_menu')">تم استيعاب الشرح، العودة للمينيو</button>
     </div>
 
-    <!-- 4. شاشة النشاط (المؤقت والأسئلة) -->
+    <!-- 4. شاشة الماراثون (الأسئلة الجذابة) -->
     <div id="screen_quiz" class="container">
-        <div id="timer_display">15:00</div>
-        <div id="quiz_content" style="text-align:right;"></div>
-        <button id="next_btn" class="btn-main" style="display:none; margin-top:20px;" onclick="nextQuestion()">تأكيد الإجابة ➔</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <div id="timer_display" style="font-weight:bold; color:var(--danger);">15:00</div>
+            <div id="q_count" style="font-weight:bold; color:var(--primary);">السؤال 1 من 30</div>
+        </div>
+        <div class="q-progress-bar"><div id="q_progress_inner" class="q-progress-inner"></div></div>
+        
+        <div id="quiz_content" class="q-card">
+            <!-- سيتم توليد السؤال هنا -->
+        </div>
+        
+        <button id="next_btn" class="btn-main" disabled onclick="nextQuestion()" style="margin-top:20px;">تأكيد الإجابة والانتقال ➔</button>
     </div>
 
-    <!-- 5. شاشة قائمة الأنشطة -->
-    <div id="screen_activities" class="container">
-        <h3 style="color:var(--primary)">ابدأ التحدي النحوي</h3>
-        <div id="main_grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;"></div>
-        <button class="btn-main" style="background:#64748b;" onclick="showScreen('screen_menu')">عودة</button>
+    <!-- شاشات إضافية -->
+    <div id="screen_activities" class="container" style="text-align:center;">
+        <h3>مرحلة التحدي النحوي</h3>
+        <p>يجب عليك إنهاء الماراثون بنسبة نجاح عالية</p>
+        <div id="main_grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;"></div>
+        <button class="btn-main" style="margin-top:15px; background:#64748b;" onclick="showScreen('screen_menu')">عودة</button>
     </div>
 
-    <!-- 6. شاشة النتائج والتغذية الراجعة -->
-    <div id="screen_feedback" class="container">
-        <h3 style="color:var(--primary)">تقرير الأداء النحوي 📝</h3>
-        <div id="feedback_list" style="max-height:400px; overflow-y:auto; margin-bottom:20px;"></div>
-        <button class="btn-main" onclick="showScreen('screen_menu')">إنهاء والعودة للرئيسية</button>
+    <div id="screen_feedback" class="container" style="text-align:center;">
+        <h3>تقرير الأداء النهائي 📝</h3>
+        <div id="feedback_score" style="font-size:2rem; font-weight:bold; color:var(--primary); margin-bottom:20px;"></div>
+        <div id="feedback_list" style="max-height:350px; overflow-y:auto; border:1px solid #eee; padding:10px; border-radius:10px;"></div>
+        <button class="btn-main" style="margin-top:20px;" onclick="showScreen('screen_menu')">إنهاء المراجعة</button>
     </div>
 
-    <div class="fixed-footer">
-        <div>تصميم: <b>علي محمد علي</b></div>
-        <div>إشراف: <b>هشام الكحالي</b></div>
-    </div>
+    <div class="fixed-footer"><div>تصميم: <b>علي محمد علي</b></div><div>إشراف: <b>هشام الكحالي</b></div></div>
 
     <script>
-        const studentsData = { "7-1": ["احمد امجد احمد نجاد", "أحمد بن سعيد بن صالح جداد", "العبد بن محمد بن زائد مسن", "النابي بن محمد بن سهيل مسن", "بخيت بن احمد بن فريح مسن", "تميم بن محمد بن جديد جداد", "تميم بن محمد بن عبدالله المسهلي", "حمد بن محمد بن احمد الهزار", "حمد بن محمد بن سعيد مسن", "راشد بن محمد بن احمد مسن", "سالم بن سعد بن صلاح رعفيت", "سعيد بن شهاب بن احمد مسن", "سعيد بن محمد بن صالح جداد", "سعيد بن محمد بن مبارك جداد", "سلطان بن حمزة بن muslim ربعات", "عامر بن محمد بن muslim المسهلي", "عبد الله بن سالم بن سليم قمصيت", "عمر احمد محمد احمد", "عمر عبد القوي ابراهيم", "فريح بن عبد الله بن فريح مسن", "مجتبى عيسى محمد", "muslim بن محمد بن عوض الوهيبي", "ناصر بن سالم بن ظويهر جداد", "ياسر بن عادل بن سالم مسن", "يوسف عمر احمد عبد الرحمن"], "7-2": ["ابراهيم محمد سالم السطري", "العباس بن مبخوت بن سالم مسن", "المنذر بن fواز بن عبدالله الهاشمي", "امير بن ناصر بن عبدالله البلوشي", "حسين سلامه حسين شليل", "خالد بن سالم بن علي العلوي", "خالد بن محمد بن مطر جداد", "خالد بن muslim بن احمد جداد", "رويزم بن muslim بن صندل المحرمي", "سالم بن مبارك بن محمد الراشدي", "سعد بن محمد بن حفيظ خوار", "سعود بن عبد الله بن بخيت مسن", "سعيد بن عبد الله بن احمد جداد", "سعيد بن muslim بن عبدالله جداد", "سلطان بن muslim بن صالح جداد", "عبد الله بن عارف بن سالم جداد", "علي بن سعيد بن علي خوار", "عمر فؤاد فهمي fؤاد", "fهد بن غانم بن سالم جداد", "محسن معتصم محمد الامام", "محمد بن سالم بن مبخوت الراشدي", "muslim بن سالم بن سهيل الراشدي", "مصطفى محمود كريم احمد", "معاذ احمد سميح علي سيد", "منيف بن سعيد بن محمد جداد", "هادف بن سعيد بن حسن خوار", "وائل بن حمود بن سالم الوائلي"], "7-3": ["أحمد بن نايف بن عبدالله جداد", "الطلح بن سالم بن حسن خوار", "بخيت بن muslim سالم الراشدي", "بدر بن عامر بن muslim جداد", "حثيث بن سلطان بن محمد مسن", "حمد بن محمد بن عبدالله جداد", "سالم بن احمد بن سالم جداد", "سعيد بن mبروك بن سالم المسهلي", "سهيل بن عبدالله بن سهيل خوار", "عبد الله أمير عبدالله نصر", "عبدالله بن محمد بن علي العامري", "علي بن ثاني بن علي جداد", "fارس زياد محمد ابو rواع", "مبارك بن سعيد بن سالم مسن", "محسن بن عقيل بن سالم خوار", "محمد بن بخيت بن فرج المهري", "محمد بن علي بن بخيت الراشدي", "محمد بن غانم بن الرضه جداد", "محمد بن muslim بن محمد جداد", "محمد بن ناصر بن عبدالله جداد", "محمد بن هيثم بن سالم جداد", "muslim بن حسن بن هادف خوار", "معاذ fؤاد الحنيش الاحمد", "ناصر بن علي بن ناصر جداد", "نور الدين محسن العلي", "هيثم بن محمد بن سالم جداد"] };
-        const enrichmentList = ["عمر احمد محمد احمد", "عمر عبد القوي ابراهيم", "يوسف عمر احمد عبد الرحمن", "مصطفى محمود كريم احمد"];
-
+        const studentsData = { "7-1": ["احمد امجد احمد نجاد", "أحمد بن سعيد بن صالح جداد", "العبد بن محمد بن زائد مسن", "النابي بن محمد بن سهيل مسن", "بخيت بن احمد بن fريح مسن", "تميم بن محمد بن جديد جداد", "تميم بن محمد بن عبدالله المسهلي", "حمد بن محمد بن احمد الهزار", "حمد بن محمد بن سعيد مسن", "راشد بن محمد بن احمد مسن", "سالم بن سعد بن صلاح رعfيت", "سعيد بن شهاب بن احمد مسن", "سعيد بن محمد بن صالح جداد", "سعيد بن محمد بن مfارك جداد", "سلطان بن حمزة بن muslim رfعات", "عامر بن محمد بن muslim المسهلي", "عبد الله بن سالم بن سليم قمصيت", "عمر احمد محمد احمد", "عمر عبد القوي ابراهيم", "fريح بن عبد الله بن fريح مسن", "مجتfى عيسى محمد", "muslim بن محمد بن عوض الوهيfي", "ناصر بن سالم بن ظويهر جداد", "ياسر بن عادل بن سالم مسن", "يوسف عمر احمد عبد الرحمن"], "7-2": ["ابراهيم محمد سالم السطري", "العياس بن مfخوت بن سالم مسن", "المنذر بن fواز بن عبدالله الهاشمي", "امير بن ناصر بن عبدالله البلوشي", "حسين سلامه حسين شليل", "خالد بن سالم بن علي العلوي", "خالد بن محمد بن مطر جداد", "خالد بن muslim بن احمد جداد", "رويزم بن muslim بن صندل المحرمي", "سالم بن مfارك بن محمد الراشدي", "سعد بن محمد بن حfيظ خوار", "سعود بن عبد الله بن fخيت مسن", "سعيد بن عبد الله بن احمد جداد", "سعيد بن muslim بن عبدالله جداد", "سلطان بن muslim بن صالح جداد", "عبد الله بن عارف بن سالم جداد", "علي بن سعيد بن علي خوار", "عمر fؤاد فهمي fؤاد", "fهد بن غانم بن سالم جداد", "محسن معتصم محمد الامام", "محمد بن سالم بن مfخوت الراشدي", "muslim بن سالم بن سهيل الراشدي", "مصطfى محمود كريم احمد", "معاذ احمد سميح علي سيد", "منيف بن سعيد بن محمد جداد", "هادف بن سعيد بن حسن خوار", "وائل بن حمود بن سالم الوائلي"], "7-3": ["أحمد بن نايف بن عبدالله جداد", "الطلح بن سالم بن حسن خوار", "fخيت بن muslim سالم الراشدي", "fدر بن عامر بن muslim جداد", "حثيث بن سلطان بن محمد مسن", "حمد بن محمد بن عبدالله جداد", "سالم بن احمد بن سالم جداد", "سعيد بن مfروك بن سالم المسهلي", "سهيل بن عبدالله بن سهيل خوار", "عبد الله أمير عبدالله نصر", "عبدالله بن محمد بن علي العامري", "علي بن ثاني بن علي جداد", "fارس زياد محمد ابو rواع", "مfارك بن سعيد بن سالم مسن", "محسن بن عقيل بن سالم خوار", "محمد بن fخيت بن fرج المهري", "محمد بن علي بن fخيت الراشدي", "محمد بن غانم بن الرضه جداد", "محمد بن muslim بن محمد جداد", "محمد بن ناصر بن عبدالله جداد", "محمد بن هيثم بن سالم جداد", "muslim بن حسن بن هادف خوار", "معاذ fؤاد الحنيش الاحمد", "ناصر بن علي بن ناصر جداد", "نور الدين محسن العلي", "هيثم بن محمد بن سالم جداد"] };
+        
         const activeQs = [
-            {q:"(العلمُ نافعٌ) إعراب كلمة (نافعٌ) هو:", a:["مبتدأ مرفوع وعلامة رفعه الضمة الظاهرة على آخره","خبر مرفوع وعلامة رفعه الضمة الظاهرة على آخره","مفعول به منصوب وعلامة نصبه الفتحة الظاهرة"], c:1},
-            {q:"(شربَ الطفلُ اللبنَ) إعراب كلمة (الطفلُ) هو:", a:["فاعل مرفوع وعلامة رفعه الضمة الظاهرة على آخره","فعل ماض مبني على الفتح","مفعول به منصوب"], c:0},
-            {q:"(إنَّ الصدقَ منجاةٌ) إعراب كلمة (الصدقَ) هو:", a:["اسم إنَّ منصوب وعلامة نصبه الفتحة الظاهرة على آخره","خبر إن مرفوع بالضمة","مبتدأ مرفوع بالضمة"], c:0},
-            {q:"(كانَ الامتحانُ سهلاً) إعراب كلمة (سهلاً) هو:", a:["اسم كان مرفوع بالضمة","خبر كان منصوب وعلامة نصبه الفتحة الظاهرة على آخره","حال منصوب بالفتحة"], c:1},
-            {q:"(بابُ الفصلِ مفتوحٌ) إعراب كلمة (الفصلِ) هو:", a:["مضاف إليه مجرور وعلامة جره الكسرة الظاهرة على آخره","خبر مرفوع بالضمة","مفعول به منصوب"], c:0},
-            {q:"(لن يكتبَ الولدُ على الجدار) إعراب (يكتبَ) هو:", a:["فعل مضارع مرفوع","فعل مضارع منصوب بـ(لن) وعلامة نصبه الفتحة الظاهرة على آخره","فعل مضارع مجزوم بالسكون"], c:1},
-            {q:"(لم يتأخرْ أحدٌ) إعراب كلمة (يتأخرْ) هو:", a:["فعل مضارع منصوب بالفتحة","فعل مضارع مجزوم بـ(لم) وعلامة جزمه السكون الظاهر على آخره","فعل مضارع مرفوع بالضمة"], c:1},
-            {q:"(لعلَّ النصرَ قريبٌ) إعراب كلمة (النصرَ) هو:", a:["اسم لعلَّ منصوب وعلامة نصبه الفتحة الظاهرة على آخره","خبر لعل مرفوع بالضمة","مبتدأ مرفوع"], c:0},
-            {q:"(صارَ الماءُ ثلجاً) إعراب كلمة (الماءُ) هو:", a:["اسم صار مرفوع وعلامة رفعه الضمة الظاهرة على آخره","خبر صار منصوب","فاعل مرفوع"], c:0},
-            {q:"(كافأ المعلمُ المتفوقَ) إعراب كلمة (المتفوقَ) هو:", a:["فاعل مرفوع بالضمة","مفعول به منصوب وعلامة نصبه الفتحة الظاهرة على آخره","مضاف إليه مجرور"], c:1},
-            {q:"(يرسمُ الفنانُ لوحةً) إعراب كلمة (يرسمُ) هو:", a:["فعل مضارع مرفوع وعلامة رفعه الضمة الظاهرة على آخره","فعل مضارع منصوب","فعل مضارع مجزوم"], c:0},
-            {q:"(إنَّ اللهَ غفورٌ) إعراب كلمة (غفورٌ) هو:", a:["اسم إن منصوب","خبر إنَّ مرفوع وعلامة رفعه الضمة الظاهرة على آخره","خبر إن منصوب بالفتحة"], c:1},
-            {q:"(رأيتُ سيارةَ الإسعافِ) إعراب كلمة (الإسعافِ) هو:", a:["مضاف إليه مجرور وعلامة جره الكسرة الظاهرة على آخره","مفعول به منصوب","فاعل مرفوع"], c:0},
+            {q:"(العلمُ نافعٌ) ما هو إعراب كلمة (نافعٌ)؟", a:["مبتدأ مرفوع وعلامة رفعه الضمة","خبر مرفوع وعلامة رفعه الضمة","مفعول به منصوب وعلامة نصبه الفتحة"], c:1},
+            {q:"(شربَ الطفلُ اللبنَ) إعراب كلمة (الطفلُ) هو:", a:["فاعل مرفوع وعلامة رفعه الضمة","فعل ماض مبني على الفتح","مفعول به منصوب"], c:0},
+            {q:"(إنَّ الصدقَ منجاةٌ) إعراب كلمة (الصدقَ) هو:", a:["اسم إنَّ منصوب بالفتحة","خبر إن مرفوع بالضمة","مبتدأ مرفوع"], c:0},
+            {q:"(كانَ الامتحانُ سهلاً) إعراب كلمة (سهلاً) هو:", a:["اسم كان مرفوع","خبر كان منصوب بالفتحة","حال منصوب"], c:1},
+            {q:"(بابُ الفصلِ مفتوحٌ) إعراب كلمة (الفصلِ) هو:", a:["مضاف إليه مجرور بالكسرة","خبر مرفوع بالضمة","مفعول به منصوب"], c:0},
+            {q:"(لن يكتبَ الولدُ على الجدار) إعراب (يكتبَ) هو:", a:["فعل مضارع منصوب بـ(لن)","فعل مضارع مجزوم","فعل مضارع مرفوع"], c:0},
+            {q:"(لم يتأخرْ أحدٌ) إعراب كلمة (يتأخرْ) هو:", a:["فعل مضارع مجزوم بالسكون","فعل مضارع منصوب","فعل مضارع مرفوع"], c:0},
             {q:"(المهندسون بارعون) إعراب كلمة (بارعون) هو:", a:["خبر مرفوع وعلامة رفعه الواو لأنه جمع مذكر سالم","خبر مرفوع بالضمة","فاعل مرفوع بالواو"], c:0},
-            {q:"(ظلَّ العاملُ يعملُ) إعراب كلمة (العاملُ) هو:", a:["اسم ظلَّ مرفوع وعلامة رفعه الضمة الظاهرة على آخره","خبر ظل منصوب","فاعل مرفوع"], c:0},
-            {q:"(كي ينجحَ الطالبُ) إعراب كلمة (ينجحَ) هو:", a:["فعل مضارع منصوب بـ(كي) وعلامة نصبه الفتحة الظاهرة على آخره","فعل مضارع مرفوع","فعل مضارع مجزوم"], c:0},
-            {q:"(اللاعبان ماهران) إعراب كلمة (اللاعبان) هو:", a:["مبتدأ مرفوع وعلامة رفعه الألف لأنه مثنى","مبتدأ مرفوع بالضمة","خبر مرفوع بالألف"], c:0},
-            {q:"(لا تؤجلْ عمل اليوم) إعراب (تؤجلْ) هو:", a:["فعل مضارع مجزوم بـ(لا الناهية) وعلامة جزمه السكون الظاهر على آخره","فعل مضارع مرفوع","فعل مضارع منصوب"], c:0},
-            {q:"(باتَ الحارسُ يقظاً) إعراب كلمة (يقظاً) هو:", a:["خبر بات منصوب وعلامة نصبه الفتحة الظاهرة على آخره","اسم بات مرفوع","حال منصوب"], c:0},
-            {q:"(إنَّ المعلمين مخلصون) إعراب (المعلمين) هو:", a:["اسم إنَّ منصوب وعلامة نصبه الياء لأنه جمع مذكر سالم","اسم إن منصوب بالفتحة","مبتدأ مرفوع بالياء"], c:0},
-            {q:"(المجتهدُ ينالُ الجائزةَ) إعراب (الجائزةَ) هو:", a:["مفعول به منصوب وعلامة نصبه الفتحة الظاهرة على آخره","فاعل مرفوع بالضمة","خبر مرفوع بالضمة"], c:0},
-            {q:"(ليتَ الغائبين يعودون) إعراب (الغائبين) هو:", a:["اسم ليت منصوب وعلامة نصبه الياء لأنه جمع مذكر سالم","اسم ليت منصوب بالفتحة","مفعول به منصوب"], c:0},
-            {q:"(كتبتُ بالقلمِ) إعراب كلمة (القلمِ) هو:", a:["اسم مجرور بالباء وعلامة جره الكسرة الظاهرة على آخره","مفعول به منصوب","مضاف إليه مجرور"], c:0},
-            {q:"(الطبيبان مخلصان) إعراب كلمة (مخلصان) هو:", a:["خبر مرفوع وعلامة رفعه الألف لأنه مثنى","خبر مرفوع بالضمة","مبتدأ مرفوع بالألف"], c:0},
-            {q:"(لعلَّ الفرجَ قريبٌ) إعراب كلمة (قريبٌ) هو:", a:["خبر لعلَّ مرفوع وعلامة رفعه الضمة الظاهرة على آخره","اسم لعل منصوب","مبتدأ مرفوع"], c:0},
-            {q:"(أصبحَ الصبحُ مشرِقاً) إعراب كلمة (مشرقاً) هو:", a:["خبر أصبح منصوب وعلامة نصبه الفتحة الظاهرة على آخره","اسم أصبح مرفوع","حال منصوب"], c:0},
-            {q:"(إنَّ الشجرةَ مثمرةٌ) إعراب كلمة (الشجرةَ) هو:", a:["اسم إنَّ منصوب وعلامة نصبه الفتحة الظاهرة على آخره","مبتدأ مرفوع بالضمة","خبر إن مرفوع"], c:0},
-            {q:"(المعلمون يخلصون) إعراب كلمة (المعلمون) هو:", a:["مبتدأ مرفوع وعلامة رفعه الواو لأنه جمع مذكر سالم","فاعل مرفوع بالواو","خبر مرفوع بالواو"], c:0},
-            {q:"(لا تقصرْ في واجبك) إعراب (تقصرْ) هو:", a:["فعل مضارع مجزوم بـ(لا الناهية) وعلامة جزمه السكون الظاهر على آخره","فعل مضارع منصوب","فعل مضارع مرفوع"], c:0},
-            {q:"(كأنَّ الجنديَّ أسدٌ) إعراب كلمة (أسدٌ) هو:", a:["خبر كأنَّ مرفوع وعلامة رفعه الضمة الظاهرة على آخره","اسم كأن منصوب","فاعل مرفوع"], c:0}
+            {q:"(الطبيبان مخلصان) إعراب كلمة (الطبيبان) هو:", a:["مبتدأ مرفوع وعلامة رفعه الألف لأنه مثنى","مبتدأ مرفوع بالضمة","خبر مرفوع"], c:0},
+            {q:"(صارَ الماءُ ثلجاً) إعراب كلمة (الماءُ) هو:", a:["اسم صار مرفوع وعلامة رفعه الضمة","خبر صار منصوب","فاعل مرفوع"], c:0},
+            {q:"(كافأ المعلمُ المتفوقَ) إعراب كلمة (المتفوقَ) هو:", a:["مفعول به منصوب بالفتحة","فاعل مرفوع بالضمة","مضاف إليه مجرور"], c:0},
+            {q:"(يرسمُ الفنانُ لوحةً) إعراب كلمة (يرسمُ) هو:", a:["فعل مضارع مرفوع بالضمة","فعل مضارع منصوب","فعل مضارع مجزوم"], c:0},
+            {q:"(إنَّ اللهَ غفورٌ) إعراب كلمة (غفورٌ) هو:", a:["خبر إنَّ مرفوع بالضمة","اسم إن منصوب","خبر إن منصوب"], c:0},
+            {q:"(رأيتُ سيارةَ الإسعافِ) إعراب كلمة (الإسعافِ) هو:", a:["مضاف إليه مجرور بالكسرة","مفعول به منصوب","فاعل مرفوع"], c:0},
+            {q:"(ظلَّ العاملُ يعملُ) إعراب كلمة (العاملُ) هو:", a:["اسم ظلَّ مرفوع بالضمة","خبر ظل منصوب","فاعل مرفوع"], c:0},
+            {q:"(كي ينجحَ الطالبُ) إعراب كلمة (ينجحَ) هو:", a:["فعل مضارع منصوب بالفتحة","فعل مضارع مرفوع","فعل مضارع مجزوم"], c:0},
+            {q:"(لا تؤجلْ عمل اليوم) إعراب (تؤجلْ) هو:", a:["فعل مضارع مجزوم بالسكون","فعل مضارع مرفوع","فعل مضارع منصوب"], c:0},
+            {q:"(باتَ الحارسُ يقظاً) إعراب كلمة (يقظاً) هو:", a:["خبر بات منصوب بالفتحة","اسم بات مرفوع","حال منصوب"], c:0},
+            {q:"(إنَّ المعلمين مخلصون) إعراب (المعلمين) هو:", a:["اسم إنَّ منصوب بالياء لأنه جمع مذكر سالم","اسم إن منصوب بالفتحة","مبتدأ مرفوع"], c:0},
+            {q:"(المجتهدُ ينالُ الجائزةَ) إعراب (الجائزةَ) هو:", a:["مفعول به منصوب بالفتحة","فاعل مرفوع بالضمة","خبر مرفوع"], c:0},
+            {q:"(ليتَ الغائبين يعودون) إعراب (الغائبين) هو:", a:["اسم ليت منصوب بالياء لأنه جمع مذكر سالم","اسم ليت منصوب بالفتحة","مفعول به منصوب"], c:0},
+            {q:"(كتبتُ بالقلمِ) إعراب كلمة (القلمِ) هو:", a:["اسم مجرور بالباء وعلامة جره الكسرة","مفعول به منصوب","مضاف إليه مجرور"], c:0},
+            {q:"(لعلَّ الفرجَ قريبٌ) إعراب كلمة (قريبٌ) هو:", a:["خبر لعلَّ مرفوع بالضمة","اسم لعل منصوب","مبتدأ مرفوع"], c:0},
+            {q:"(أصبحَ الصبحُ مشرِقاً) إعراب كلمة (مشرقاً) هو:", a:["خبر أصبح منصوب بالفتحة","اسم أصبح مرفوع","حال منصوب"], c:0},
+            {q:"(إنَّ الشجرةَ مثمرةٌ) إعراب كلمة (الشجرةَ) هو:", a:["اسم إنَّ منصوب بالفتحة","مبتدأ مرفوع بالضمة","خبر إن مرفوع"], c:0},
+            {q:"(المعلمون يخلصون) إعراب كلمة (المعلمون) هو:", a:["مبتدأ مرفوع بالواو لأنه جمع مذكر سالم","فاعل مرفوع بالواو","خبر مرفوع بالواو"], c:0},
+            {q:"(لا تقصرْ في واجبك) إعراب (تقصرْ) هو:", a:["فعل مضارع مجزوم بالسكون","فعل مضارع منصوب","فعل مضارع مرفوع"], c:0},
+            {q:"(كأنَّ الجنديَّ أسدٌ) إعراب كلمة (أسدٌ) هو:", a:["خبر كأنَّ مرفوع بالضمة","اسم كأن منصوب","فاعل مرفوع"], c:0},
+            {q:"(مررتُ بالحدائقِ) إعراب كلمة (الحدائقِ) هو:", a:["اسم مجرور بالباء وعلامة جره الكسرة","مفعول به منصوب","مضاف إليه"], c:0},
+            {q:"(أضحتِ المدينةُ زاهرةً) إعراب كلمة (المدينةُ) هو:", a:["اسم أضحى مرفوع بالضمة","خبر أضحى منصوب","فاعل مرفوع"], c:0}
         ];
 
-        const fullDetailExplain = `
-            <div class="lesson-section">
-                <div class="lesson-title">1. الجملة الاسمية (أركانها وإعرابها)</div>
-                <p><b>التعريف:</b> هي الجملة التي تبدأ باسم، وتتكون من ركنين أساسيين مرفوعين.</p>
-                <div class="lesson-subtitle">الأركان:</div>
-                <ul>
-                    <li><b>المبتدأ:</b> الاسم الذي نبدأ به الجملة.</li>
-                    <li><b>الخبر:</b> الجزء الذي يخبرنا عن المبتدأ ويتمم معنى الجملة.</li>
-                </ul>
-                <div class="example-box">مثال: <span style="color:blue">العلمُ نورٌ</span></div>
-                <table class="parsing-table">
-                    <tr><td>العلمُ</td><td>مبتدأ مرفوع وعلامة رفعه الضمة الظاهرة على آخره.</td></tr>
-                    <tr><td>نورٌ</td><td>خبر مرفوع وعلامة رفعه الضمة الظاهرة على آخره.</td></tr>
-                </table>
-            </div>
-            <div class="lesson-section">
-                <div class="lesson-title">2. الجملة الفعلية (أركانها وإعرابها)</div>
-                <p><b>التعريف:</b> هي الجملة التي تبدأ بفعل (ماضٍ أو مضارع أو أمر).</p>
-                <div class="lesson-subtitle">الأركان:</div>
-                <ul>
-                    <li><b>الفعل:</b> الحدث (مثل: قرأ، يلعب، اكتب).</li>
-                    <li><b>الفاعل:</b> من قام بالفعل (يكون مرفوعاً).</li>
-                    <li><b>المفعول به:</b> من وقع عليه الفعل (يكون منصوباً).</li>
-                </ul>
-                <div class="example-box">مثال: <span style="color:green">شربَ الطفلُ الحليبَ</span></div>
-                <table class="parsing-table">
-                    <tr><td>شربَ</td><td>فعل ماض مبني على الفتح.</td></tr>
-                    <tr><td>الطفلُ</td><td>فاعل مرفوع وعلامة رفعه الضمة الظاهرة على آخره.</td></tr>
-                    <tr><td>الحليبَ</td><td>مفعول به منصوب وعلامة نصبه الفتحة الظاهرة على آخره.</td></tr>
-                </table>
-            </div>
-            <div class="lesson-section">
-                <div class="lesson-title">3. الحروف الناسخة (إنَّ وأخواتها)</div>
-                <p><b>عملها:</b> تدخل على الجملة الاسمية، <span style="color:red">تنصب</span> المبتدأ (ويسمى اسمها) و <span style="color:red">ترفع</span> الخبر (ويسمى خبرها).</p>
-                <div class="example-box">مثال: <span style="color:red">إنَّ الصدقَ منجاةٌ</span></div>
-                <table class="parsing-table">
-                    <tr><td>إنَّ</td><td>حرف ناسخ يفيد التوكيد.</td></tr>
-                    <tr><td>الصدقَ</td><td>اسم إنَّ منصوب وعلامة نصبه الفتحة الظاهرة على آخره.</td></tr>
-                    <tr><td>منجاةٌ</td><td>خبر إنَّ مرفوع وعلامة رفعه الضمة الظاهرة على آخره.</td></tr>
-                </table>
-            </div>
-            <div class="lesson-section">
-                <div class="lesson-title">4. الأفعال الناسخة (كان وأخواتها)</div>
-                <p><b>عملها:</b> تدخل على الجملة الاسمية، <span style="color:purple">ترفع</span> المبتدأ (ويسمى اسمها) و <span style="color:purple">تنصب</span> الخبر (ويسمى خبرها).</p>
-                <div class="example-box">مثال: <span style="color:purple">أصبحَ الجوُّ جميلًا</span></div>
-                <table class="parsing-table">
-                    <tr><td>أصبحَ</td><td>فعل ماضٍ ناقص ناسخ مبني على الفتح.</td></tr>
-                    <tr><td>الجوُّ</td><td>اسم أصبحَ مرفوع وعلامة رفعه الضمة الظاهرة على آخره.</td></tr>
-                    <tr><td>جميلًا</td><td>خبر أصبحَ منصوب وعلامة نصبه الفتحة الظاهرة على آخره.</td></tr>
-                </table>
-            </div>
-        `;
-
-        let user="", path="", currentQ=0, userAnswers=[], timeLeft=900, timerId=null;
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        function playBeep() {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.frequency.value = 1000; gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-        }
+        let user="", currentQ=0, userAnswers=[], timeLeft=900, timerId=null;
 
         function toggleDrawer() {
-            const drawer = document.getElementById('sideDrawer');
-            const overlay = document.getElementById('overlay');
-            drawer.classList.toggle('open');
-            overlay.style.display = drawer.classList.contains('open') ? 'block' : 'none';
+            const d = document.getElementById('sideDrawer');
+            const o = document.getElementById('overlay');
+            d.classList.toggle('open');
+            o.style.display = d.classList.contains('open') ? 'block' : 'none';
         }
 
         function goToHome() { toggleDrawer(); if(user) showScreen('screen_menu'); else showScreen('screen_login'); }
-        function goToExplain() { toggleDrawer(); if(user) showScreen('screen_explain'); else alert('سجل دخولك أولاً!'); }
+        function goToExplain() { toggleDrawer(); if(user) showScreen('screen_explain'); else alert('سجل دخولك أولاً'); }
 
         function updateStudents() {
             const cls = document.getElementById('sel_class').value;
@@ -241,31 +260,25 @@
         function handleLogin() {
             user = document.getElementById('sel_name').value;
             if(!user) return;
-            path = enrichmentList.includes(user) ? "إثرائي" : "علاجي";
-            document.getElementById('welcome_msg').innerText = `أهلاً بك يا بطل، ${user.split(' ')[0]}`;
-            document.getElementById('path_desc').innerText = `المسار التعليمي: ${path}`;
+            document.getElementById('welcome_msg').innerText = `أهلاً بك، ${user.split(' ')[0]} 👋`;
             document.getElementById('user_init').innerText = user[0];
-            document.getElementById('explain_area').innerHTML = fullDetailExplain;
             showScreen('screen_menu');
         }
 
         function showScreen(id) {
-            document.querySelectorAll('.container').forEach(c=>c.style.display='none');
-            document.getElementById(id).style.display='block';
-            window.scrollTo(0,0);
+            document.querySelectorAll('.container').forEach(c=>c.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
             if(id === 'screen_activities') renderGrid();
+            window.scrollTo(0,0);
         }
 
         function renderGrid() {
-            const grid = document.getElementById('main_grid');
-            grid.innerHTML = '';
+            const g = document.getElementById('main_grid'); g.innerHTML = '';
             for(let i=1; i<=4; i++) {
-                const btn = document.createElement('button');
-                btn.className = 'btn-main';
-                btn.style.background = i === 1 ? 'var(--primary)' : '#cbd5e1';
-                btn.innerText = `نشاط ${i}`;
-                btn.onclick = () => i === 1 ? startQuiz() : alert('أكمل النشاط الأول بنجاح أولاً!');
-                grid.appendChild(btn);
+                const b = document.createElement('button'); b.className = 'btn-main';
+                b.style.background = i === 1 ? 'var(--primary)' : '#cbd5e1';
+                b.innerText = `نشاط ${i}`; b.onclick = () => i === 1 ? startQuiz() : alert('أكمل النشاط الأول أولاً!');
+                g.appendChild(b);
             }
         }
 
@@ -280,59 +293,59 @@
             if(timerId) clearInterval(timerId);
             timerId = setInterval(() => {
                 timeLeft--;
-                const m = Math.floor(timeLeft / 60); const s = timeLeft % 60;
-                const display = document.getElementById('timer_display');
-                display.innerText = `${m}:${s < 10 ? '0' + s : s}`;
-                if(timeLeft <= 300) {
-                    display.classList.add('timer-warning');
-                    if(timeLeft % 60 === 0) playBeep();
-                }
+                const m = Math.floor(timeLeft/60), s = timeLeft%60;
+                document.getElementById('timer_display').innerText = `${m}:${s<10?'0'+s:s}`;
                 if(timeLeft <= 0) { clearInterval(timerId); showFeedback(); }
             }, 1000);
         }
 
         function renderQ() {
             const q = activeQs[currentQ];
-            const content = document.getElementById('quiz_content');
-            content.innerHTML = `<h3 style="color:var(--primary)">السؤال ${currentQ+1} من 30</h3><p style="font-size:1.15rem; background:#f9f9f9; padding:15px; border-right:4px solid var(--gold);">${q.q}</p>`;
+            document.getElementById('q_count').innerText = `السؤال ${currentQ+1} من ${activeQs.length}`;
+            document.getElementById('q_progress_inner').style.width = `${((currentQ+1)/activeQs.length)*100}%`;
+            
+            const cont = document.getElementById('quiz_content');
+            cont.innerHTML = `<div class="q-text">${q.q}</div>`;
+            
             q.a.forEach((opt, idx) => {
                 const div = document.createElement('div');
-                div.style = "background:#fff; padding:15px; border-radius:10px; margin-bottom:10px; cursor:pointer; border:2px solid #eee; text-align:right;";
-                div.innerHTML = `<input type="radio" name="q" id="i${idx}" style="display:none"> ${opt}`;
+                div.className = 'option-card';
+                div.innerHTML = `<div class="custom-radio"></div><span>${opt}</span>`;
                 div.onclick = () => {
-                    document.querySelectorAll('#quiz_content div').forEach(d => { d.style.borderColor = '#eee'; d.style.background = '#fff'; });
-                    div.style.borderColor = 'var(--gold)'; div.style.background = '#fffcf0';
-                    document.getElementById(`i${idx}`).checked = true;
-                    document.getElementById('next_btn').style.display = 'block';
+                    document.querySelectorAll('.option-card').forEach(c=>c.classList.remove('selected'));
+                    div.classList.add('selected');
+                    document.getElementById('next_btn').disabled = false;
                 };
-                content.appendChild(div);
+                div.dataset.idx = idx;
+                cont.appendChild(div);
             });
         }
 
         function nextQuestion() {
-            const sel = document.querySelector('input[name="q"]:checked');
-            userAnswers.push(parseInt(sel.id.replace('i','')));
+            const sel = document.querySelector('.option-card.selected');
+            userAnswers.push(parseInt(sel.dataset.idx));
             currentQ++;
-            if(currentQ < activeQs.length) { renderQ(); document.getElementById('next_btn').style.display = 'none'; }
-            else showFeedback();
+            if(currentQ < activeQs.length) {
+                document.getElementById('next_btn').disabled = true;
+                renderQ();
+            } else { showFeedback(); }
         }
 
         function showFeedback() {
             clearInterval(timerId);
             showScreen('screen_feedback');
+            let score = 0;
             const list = document.getElementById('feedback_list');
             list.innerHTML = "";
-            let score = 0;
             activeQs.forEach((q, i) => {
-                const isCorrect = userAnswers[i] === q.c;
-                if(isCorrect) score++;
-                const div = document.createElement('div');
-                div.style = `text-align:right; padding:15px; margin-bottom:10px; border-radius:10px; border-right:5px solid ${isCorrect?'var(--success)':'var(--danger)'}; background:${isCorrect?'#f0fdf4':'#fef2f2'}`;
-                div.innerHTML = `<b>س${i+1}: ${q.q}</b><br>إجابتك: ${q.a[userAnswers[i]] || 'لم تجب'} ${isCorrect?'✔️':'❌'}`;
-                if(!isCorrect) div.innerHTML += `<br><span style="color:var(--success); font-weight:bold;">الإعراب الصحيح: ${q.a[q.c]}</span>`;
-                list.appendChild(div);
+                const correct = userAnswers[i] === q.c;
+                if(correct) score++;
+                const d = document.createElement('div');
+                d.style = `text-align:right; padding:12px; margin-bottom:8px; border-radius:10px; border-right:5px solid ${correct?'var(--success)':'var(--danger)'}; background:#f9f9f9`;
+                d.innerHTML = `<b>س${i+1}:</b> ${q.q}<br><span style="color:${correct?'green':'red'}">إجابتك: ${q.a[userAnswers[i]] || 'لم تجب'}</span><br><small>الصحيح: ${q.a[q.c]}</small>`;
+                list.appendChild(d);
             });
-            alert(`تم الانتهاء! نتيجتك هي: ${score} من 30`);
+            document.getElementById('feedback_score').innerText = `نتيجتك: ${score} من ${activeQs.length}`;
         }
     </script>
 </body>
